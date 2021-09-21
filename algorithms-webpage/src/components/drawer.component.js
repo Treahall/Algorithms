@@ -4,6 +4,7 @@ import { Box, CssBaseline, AppBar, Toolbar, IconButton, Typography, Drawer,
     Divider, List, ListItem, ListItemIcon, ListItemText
     } from '@material-ui/core';
 import { Menu, Inbox, Mail } from '@material-ui/icons';
+import { getAccordionDetailsUtilityClass } from '@mui/material';
 
 
 const drawerWidth = 240;
@@ -19,8 +20,10 @@ export default class ResponsiveDrawer extends Component {
 
     handleDrawerToggle = () => {
         this.setState({mobileOpen: !this.state.mobileOpen})
+
     }
 
+    
     render () {
         const { window, classes, children } = this.props;
         const { mobileOpen } = this.state;

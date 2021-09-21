@@ -1,35 +1,19 @@
-import logo from './logo.svg';
+import React from 'react';
+import ReactiveDrawer from "./components/drawer.component"
 import "fontsource-roboto";
 import {BrowserRouter as Router, Route} from "react-router-dom"
-import { Menu } from '@material-ui/icons';
-import { AppBar, Container, ThemeProvider, createTheme, Button, Typography, IconButton, Toolbar } from '@material-ui/core';
-import { purple, yellow } from '@material-ui/core/colors';
 import './App.css';
-import AlgorithmList from "./components/algorithm-list.component";
-
-const theme = createTheme({
-  typography: {
-      h2: {
-        fontSize: 36
-      }
-  },
-  palette: {
-    primary: {
-      main: purple[400],
-    },
-    secondary: {
-      main: yellow[200],
-    }
-  }
-})
+import AlgorithmList from "./components/algorithm-list.js";
 
 function App() {
-  return (
+  return(
     <Router>
-    <br/>
-      <Route path="/" exact component={AlgorithmList} />
+      <div className="container">
+        <ReactiveDrawer />
+      
+      <Route path="/" component={AlgorithmList} />
+      </div>
     </Router>
-
   );
 }
 
