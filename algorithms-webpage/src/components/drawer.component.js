@@ -23,7 +23,7 @@ function ResponsiveDrawer(props) {
             <Toolbar/>  
             <Divider />
             <List>
-                {['Insertion Sort', 'Merg Sort', 'Bubble Sort', 'Quick Sort'].map((text, index) => (
+                {['Insertion Sort', 'Merge Sort', 'Bubble Sort', 'Quick Sort'].map((text, index) => (
                 <ListItemButton onClick={() => handleRouting(text)} key={text}>
                     <ListItemText primary={text} />
 
