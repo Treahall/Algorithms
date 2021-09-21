@@ -1,110 +1,105 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
+import { IconButton, Drawer, Divider, AppBar, Box, CssBaseline,
+    List, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography
+    } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 
 const drawerWidth = 240;
 
-function NewDrawer(props) {
-  const { window, children } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+function ResponsiveDrawer(props) {
+    const { children } = props;
+    const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
 
-  const drawer = (
-    <div>
-      <Toolbar />
-      <Divider />
-      <List>
-        {['Insertion Sort', 'Merg Sort', 'Bubble Sort', 'Quick Sort'].map((text, index) => (
-          <ListItem button key={text}>
-            
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  );
+    const handleRouting = (algName) => {
+        
+    }
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+    const drawer = (
+        <div>
+            <Toolbar/>  
+            <Divider />
+            <List>
+                {['Insertion Sort', 'Merg Sort', 'Bubble Sort', 'Quick Sort'].map((text, index) => (
+                <ListItemButton onClick={() => handleRouting(text)} key={text}>
+                    <ListItemText primary={text} />
 
-  return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-        }}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Algorithms
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-        >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Box>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Toolbar />
-        { children }
-      </Box>
-    </Box>
-  );
+                </ListItemButton>
+                ))}
+            </List>
+        </div>
+    );
+
+
+
+    return (
+        <Box sx={{ display: 'flex' }}>
+            <CssBaseline />
+            <AppBar
+                sx={{
+                width: '100%',
+                position: "fixed",
+                zIndex:  (theme) => theme.zIndex.drawer + 1
+                }}
+            >
+                <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        onClick={handleDrawerToggle}
+                        sx={{ mr: 2, display: { sm: 'none' } }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" noWrap component="div">
+                        Algorithms
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+            <Box
+                component="nav"
+                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+                aria-label="mailbox folders"
+            >
+                {/* ### The mobile (aka small) version of the drawer ### */}
+                <Drawer
+                variant="temporary"
+                open={mobileOpen}
+                onClose={handleDrawerToggle}
+                ModalProps={{
+                    keepMounted: true, // Better open performance on mobile.
+                }}
+                sx={{
+                    display: { xs: 'block', sm: 'none' },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                }}
+                >
+                    {drawer}
+                </Drawer>
+                {/* ### The desktop (aka large) version of the drawer ### */}
+                <Drawer
+                variant="permanent"
+                sx={{
+                    display: { xs: 'none', sm: 'block' }, flexShrink: 0,
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                }}
+                open
+                >
+                    {drawer}
+                </Drawer>
+            </Box>
+
+            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                <Toolbar />
+                
+                { children }
+            </Box>
+        </Box>
+    );
 }
 
-export default NewDrawer;
+export default ResponsiveDrawer;
