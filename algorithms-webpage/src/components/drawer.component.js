@@ -28,37 +28,38 @@ function ResponsiveDrawer(props) {
                 <Toolbar/>  
                 <Divider />
                 <List>
-                    <ListItemButton selected={selectedIndex === 0}
-                        onClick={(event) => handleListItemClick(event, 0)}
-                    >
-                        <Link to="/insertion_sort" style={{ textDecoration: 'none' }}>
-                        <ListItemText primary="Insertion Sort"/>
-                        </Link>
-                    </ListItemButton>
+                    <Link to="/insertion_sort" style={{ textDecoration: 'none' }}>
+                        <ListItemButton selected={selectedIndex === 0}
+                            onClick={(event) => handleListItemClick(event, 0)}
+                        >
+                            <ListItemText primary="Insertion Sort"/>
+                        </ListItemButton>
+                    </Link>
 
-                    <ListItemButton selected={selectedIndex === 1}
-                        onClick={(event) => handleListItemClick(event, 1)}
-                    >
-                        <Link to="/merge_sort" style={{ textDecoration: 'none' }}>
-                            <ListItemText primary="Merge Sort"/>
-                        </Link>
-                    </ListItemButton>
+                    <Link to="/merge_sort" style={{ textDecoration: 'none' }}>
+                        <ListItemButton selected={selectedIndex === 1}
+                            onClick={(event) => handleListItemClick(event, 1)}
+                        >
+                                <ListItemText primary="Merge Sort"/>
+                        </ListItemButton>
+                    </Link>
 
-                    <ListItemButton selected={selectedIndex === 2}
-                        onClick={(event) => handleListItemClick(event, 2)}
-                    >
-                        <Link to="/bubble_sort" style={{ textDecoration: 'none' }}>
-                            <ListItemText primary="Bubble Sort"/>
-                        </Link>
-                    </ListItemButton>
+                    <Link to="/bubble_sort" style={{ textDecoration: 'none' }}>
+                        <ListItemButton selected={selectedIndex === 2}
+                            onClick={(event) => handleListItemClick(event, 2)}
+                        >
+                                <ListItemText primary="Bubble Sort"/>
+                        </ListItemButton>
+                    </Link>
 
-                    <ListItemButton selected={selectedIndex === 3}
-                        onClick={(event) => handleListItemClick(event, 3)}
-                    >
-                        <Link to="/quick_sort" style={{ textDecoration: 'none' }}>
-                            <ListItemText primary="Quick Sort"/>
-                        </Link>
-                    </ListItemButton>
+                    <Link  to="/quick_sort" style={{ textDecoration: 'none' }}>
+                        <ListItemButton selected={selectedIndex === 3}
+                            onClick={(event) => handleListItemClick(event, 3)}
+                        >
+                                <ListItemText primary="Quick Sort"/>
+                        </ListItemButton>
+                    </Link>
+                    
                 </List>
             </Router> 
         </div>
@@ -87,14 +88,13 @@ function ResponsiveDrawer(props) {
                         <MenuIcon />
                     </IconButton>
                     <Router>
-                        <Button component="Typography" color="inherit" onClick={(event) => handleListItemClick(event, -1)}>
-                            <Link to="/" style={{ textDecoration: 'none' }}>
+                        <Link to="/" style={{ textDecoration: 'none' }}>
+                            <Button component="Typography" color="inherit" onClick={(event) => handleListItemClick(event, -1)}>
                                 <Typography component="div" variant="h6" noWrap >
                                     Algorithms
                                 </Typography>
-                            </Link>
-                            
-                        </Button>
+                            </Button>
+                        </Link>
                     </Router>
                 </Toolbar>
             </AppBar>
