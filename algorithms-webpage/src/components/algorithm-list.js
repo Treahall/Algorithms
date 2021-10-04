@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {withRouter} from "react-router-dom"
 
-
-export default class AlgorithmList extends Component{
+class AlgorithmList extends Component{
   constructor(props){
     super(props);
 
@@ -42,3 +42,4 @@ export default class AlgorithmList extends Component{
     )
   }
 }
+export default withRouter(AlgorithmList);

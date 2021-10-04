@@ -1,6 +1,7 @@
 import React, {Component, useState, useEffect} from 'react';
 import "fontsource-roboto";
 import axios from 'axios';
+import {withRouter} from "react-router-dom"
 
 function InsertionSortComponent(props){
   const [data, setData] = useState([]);
@@ -60,4 +61,4 @@ function InsertionSortComponent(props){
 //However, I'm predicting that we will run into lag issues. Not sure how we will fix that.
 
 
-export default InsertionSortComponent;
+export default withRouter(InsertionSortComponent);
