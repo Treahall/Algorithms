@@ -1,6 +1,6 @@
 import React, { Children, Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, CssBaseline, AppBar, Toolbar, IconButton, Typography, Drawer, 
+import { Box, CssBaseline, AppBar, Toolbar, IconButton, Typography, Drawer,
     Divider, List, ListItem, ListItemIcon, ListItemText
     } from '@material-ui/core';
 import { Menu, Inbox, Mail } from '@material-ui/icons';
@@ -23,11 +23,11 @@ export default class ResponsiveDrawer extends Component {
 
     }
 
-    
+
     render () {
         const { window, classes, children } = this.props;
         const { mobileOpen } = this.state;
-    
+
         const drawer = (
             <div>
                 <Toolbar />
@@ -35,6 +35,7 @@ export default class ResponsiveDrawer extends Component {
                 <List>
                     {['Insertion Sort', 'Merge Sort', 'Bubble Sort', 'Quick Sort'].map((text, index) => (
                     <ListItem button key={text}>
+                      <Link to = "/insertion_sort" />
                         {/* <ListItemIcon>
                         {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                         </ListItemIcon> */}
@@ -110,5 +111,5 @@ export default class ResponsiveDrawer extends Component {
                 </Box>
             </Box>
         )
-    }      
+    }
 }

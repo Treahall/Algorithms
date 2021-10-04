@@ -17,6 +17,30 @@ const algorithmSchema = new Schema({
         trim: true,
     },
 
+    best_case: {
+      type: String,
+      required: true,
+      unique: false,
+      trim: true,
+      minlength: 4
+    },
+
+    average_case: {
+      type: String,
+      required: true,
+      unique: false,
+      trim: true,
+      minlength: 4
+    },
+
+    worst_case: {
+      type: String,
+      required: true,
+      unique: false,
+      trim: true,
+      minlength: 4
+    },
+
 }, {
     timestamps: true,
 
