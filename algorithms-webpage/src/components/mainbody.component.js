@@ -1,5 +1,5 @@
 import { React, Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, withRouter} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import AlgorithmList from "./algorithm-list.js"
 import InsertionSortComponent from "./insertion_sort.js"
 import MergeSortComponent from "./merge_sort.js"
@@ -18,15 +18,13 @@ export default class MainBody extends Component {
     render() {
         return(
             <div>
-            <Router>
-              <Switch>
+                <Switch>
                 <Route path="/insertion_sort" component = {InsertionSortComponent} />
                 <Route path="/merge_sort" component = {MergeSortComponent} />
                 <Route path="/quick_sort" component = {QuickSortComponent} />
                 <Route path="/bubble_sort" component = {BubbleSortComponent} />
-                <Route path="/" exact component = {withRouter(AlgorithmList)} />
-              </Switch>
-            </Router>
+                <Route path="/" exact component = {AlgorithmList} />
+                </Switch>
             </div>
         )
     }
