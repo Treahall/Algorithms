@@ -1,10 +1,14 @@
 import * as React from 'react';
 import { IconButton, Drawer, Divider, AppBar, Box, CssBaseline,
-    List, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography
+    List, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography, Button
     } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from "react-router-dom";
+import {BrowserRouter as Router, Route} from "react-router-dom"
 
 const drawerWidth = 240;
+
+
 
 function ResponsiveDrawer(props) {
     const { children } = props;
@@ -14,22 +18,48 @@ function ResponsiveDrawer(props) {
         setMobileOpen(!mobileOpen);
     };
 
-    const handleRouting = (algName) => {
-        
-    }
+    const [selectedIndex, setSelectedIndex] = React.useState(-1);
+
+    const handleListItemClick = (event, index) => {
+      setSelectedIndex(index);
+    };
 
     const drawer = (
         <div>
-            <Toolbar/>  
-            <Divider />
-            <List>
-                {['Insertion Sort', 'Merge Sort', 'Bubble Sort', 'Quick Sort'].map((text, index) => (
-                <ListItemButton onClick={() => handleRouting(text)} key={text}>
-                    <ListItemText primary={text} />
+            <Router>
+                <Toolbar/>  
+                <Divider />
+                <List>
+                    <ListItemButton component={Link} selected={selectedIndex === 0}
+                        to="/insertion_sort" style={{ textDecoration: 'none' }}
+                        onClick={(event) => handleListItemClick(event, 0)}
+                    >
+                        <ListItemText primary="Insertion Sort"/>
+                    </ListItemButton>
 
-                </ListItemButton>
-                ))}
-            </List>
+                    <ListItemButton component={Link} selected={selectedIndex === 1}
+                        to="/merge_sort" style={{ textDecoration: 'none' }}
+                        onClick={(event) => handleListItemClick(event, 1)}
+                    >
+                            <ListItemText primary="Merge Sort"/>
+                    </ListItemButton>
+
+                    <ListItemButton component={Link} selected={selectedIndex === 2}
+                        to="/bubble_sort" style={{ textDecoration: 'none' }}
+                        onClick={(event) => handleListItemClick(event, 2)}
+                    >
+                            <ListItemText primary="Bubble Sort"/>
+                    </ListItemButton>
+
+                    <ListItemButton component={Link} selected={selectedIndex === 3}
+                        to="/quick_sort" style={{ textDecoration: 'none' }}
+                        onClick={(event) => handleListItemClick(event, 3)}
+                    >
+                            <ListItemText primary="Quick Sort"/>
+                    </ListItemButton>
+                    
+                </List>
+            </Router> 
         </div>
     );
 
@@ -55,9 +85,16 @@ function ResponsiveDrawer(props) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Algorithms
-                    </Typography>
+                    <Router>
+                        <Button component={Link} color="inherit" onClick={(event) => handleListItemClick(event, -1)}
+                            to="/" style={{ textDecoration: 'none' }}
+                        >
+                            <Typography component="div" variant="h6" noWrap >
+                                Algorithms
+                            </Typography>
+                        </Button>
+                    </Router>
+                    
                 </Toolbar>
             </AppBar>
             <Box
