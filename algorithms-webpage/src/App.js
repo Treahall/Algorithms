@@ -29,39 +29,10 @@ const theme = createTheme({
 
 function App() {
   return (
-    <Router>
-      <ResponsiveDrawer>
-          <Switch>
-            <Route exact path="/">
-              <MainBody/>
-            </Route>
-            <Route path="/login">
-              <Login/>
-            </Route>
-            <Route path="/settings">
-              <Settings/>
-            </Route>
-          </Switch>
+    <ResponsiveDrawer>
+          
     </ResponsiveDrawer>
-    </Router>
-
   );
 }
 
-import { Link } from 'react-router-dom'
-
-const Navbar = () => {
-  return (
-    <nav className="navbar">
-      <h1>Title of the page</h1>
-      <div className="links">
-        <Link to="/">Home</Link>
-        <Link to="/login">Login</Link>
-        <Link to="/settings">Settings</Link>
-      </div>
-    </nav>
-  );
-}
-
-export default Navbar;
 export default App;
