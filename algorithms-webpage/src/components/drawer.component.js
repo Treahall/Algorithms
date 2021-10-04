@@ -26,7 +26,6 @@ function ResponsiveDrawer(props) {
 
     const drawer = (
         <div>
-            <Router>
                 <Toolbar/>
                 <Divider />
                 <List>
@@ -59,7 +58,6 @@ function ResponsiveDrawer(props) {
                     </ListItemButton>
 
                 </List>
-            </Router>
         </div>
     );
 
@@ -85,7 +83,6 @@ function ResponsiveDrawer(props) {
                     >
                     <MenuIcon />
                     </IconButton>
-                    <Router>
                         <Button component={Link} color="inherit" onClick={(event) => handleListItemClick(event, -1)}
                             to="/" style={{ textDecoration: 'none' }}
                         >
@@ -93,7 +90,6 @@ function ResponsiveDrawer(props) {
                                 Algorithms
                             </Typography>
                         </Button>
-                    </Router>
                 </Toolbar>
             </AppBar>
             <Box
