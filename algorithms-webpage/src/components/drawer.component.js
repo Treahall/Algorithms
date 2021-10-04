@@ -8,6 +8,8 @@ import {BrowserRouter as Router, Route} from "react-router-dom"
 
 const drawerWidth = 240;
 
+
+
 function ResponsiveDrawer(props) {
     const { children } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -28,37 +30,33 @@ function ResponsiveDrawer(props) {
                 <Toolbar/>  
                 <Divider />
                 <List>
-                    <Link to="/insertion_sort" style={{ textDecoration: 'none' }}>
-                        <ListItemButton selected={selectedIndex === 0}
-                            onClick={(event) => handleListItemClick(event, 0)}
-                        >
-                            <ListItemText primary="Insertion Sort"/>
-                        </ListItemButton>
-                    </Link>
+                    <ListItemButton component={Link} selected={selectedIndex === 0}
+                        to="/insertion_sort" style={{ textDecoration: 'none' }}
+                        onClick={(event) => handleListItemClick(event, 0)}
+                    >
+                        <ListItemText primary="Insertion Sort"/>
+                    </ListItemButton>
 
-                    <Link to="/merge_sort" style={{ textDecoration: 'none' }}>
-                        <ListItemButton selected={selectedIndex === 1}
-                            onClick={(event) => handleListItemClick(event, 1)}
-                        >
-                                <ListItemText primary="Merge Sort"/>
-                        </ListItemButton>
-                    </Link>
+                    <ListItemButton component={Link} selected={selectedIndex === 1}
+                        to="/merge_sort" style={{ textDecoration: 'none' }}
+                        onClick={(event) => handleListItemClick(event, 1)}
+                    >
+                            <ListItemText primary="Merge Sort"/>
+                    </ListItemButton>
 
-                    <Link to="/bubble_sort" style={{ textDecoration: 'none' }}>
-                        <ListItemButton selected={selectedIndex === 2}
-                            onClick={(event) => handleListItemClick(event, 2)}
-                        >
-                                <ListItemText primary="Bubble Sort"/>
-                        </ListItemButton>
-                    </Link>
+                    <ListItemButton component={Link} selected={selectedIndex === 2}
+                        to="/bubble_sort" style={{ textDecoration: 'none' }}
+                        onClick={(event) => handleListItemClick(event, 2)}
+                    >
+                            <ListItemText primary="Bubble Sort"/>
+                    </ListItemButton>
 
-                    <Link  to="/quick_sort" style={{ textDecoration: 'none' }}>
-                        <ListItemButton selected={selectedIndex === 3}
-                            onClick={(event) => handleListItemClick(event, 3)}
-                        >
-                                <ListItemText primary="Quick Sort"/>
-                        </ListItemButton>
-                    </Link>
+                    <ListItemButton component={Link} selected={selectedIndex === 3}
+                        to="/quick_sort" style={{ textDecoration: 'none' }}
+                        onClick={(event) => handleListItemClick(event, 3)}
+                    >
+                            <ListItemText primary="Quick Sort"/>
+                    </ListItemButton>
                     
                 </List>
             </Router> 
@@ -88,13 +86,13 @@ function ResponsiveDrawer(props) {
                         <MenuIcon />
                     </IconButton>
                     <Router>
-                        <Link to="/" style={{ textDecoration: 'none' }}>
-                            <Button component="Typography" color="inherit" onClick={(event) => handleListItemClick(event, -1)}>
-                                <Typography component="div" variant="h6" noWrap >
-                                    Algorithms
-                                </Typography>
-                            </Button>
-                        </Link>
+                        <Button component={Link} color="inherit" onClick={(event) => handleListItemClick(event, -1)}
+                            to="/" style={{ textDecoration: 'none' }}
+                        >
+                            <Typography component="div" variant="h6" noWrap >
+                                Algorithms
+                            </Typography>
+                        </Button>
                     </Router>
                 </Toolbar>
             </AppBar>
