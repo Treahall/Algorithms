@@ -24,7 +24,3 @@ app.use('/algorithms', algorithmRouter);
 app.listen(port, () => {
     console.log(`Server is running on the port: ${port}`);
 });
-<<<<<<< HEAD
-
-=======
->>>>>>> drawer-routing
