@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import { Component } from 'react';
 import * as React from 'react';
 import { Route, Switch} from 'react-router-dom';
+=======
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+>>>>>>> drawer-routing
 import AlgorithmList from "./algorithm-list.js"
 import InsertionSortComponent from "./insertion_sort.js"
 import MergeSortComponent from "./merge_sort.js"
