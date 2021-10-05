@@ -1,4 +1,5 @@
-import { React, Component } from 'react';
+import {Component } from 'react';
+import * as React from 'react'
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import AlgorithmList from "./algorithm-list.js"
 import InsertionSortComponent from "./insertion_sort.js"
