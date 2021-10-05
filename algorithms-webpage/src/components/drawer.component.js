@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IconButton, Drawer, Divider, AppBar, Box, CssBaseline,
-    List, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography, Button
+    List, ListItemButton, ListItemText, Toolbar, Typography, Button
     } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
