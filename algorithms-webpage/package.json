@@ -2,7 +2,7 @@
   "name": "algorithms-webpage",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://treahall.github.io/Algorithms/",
+  "homepage": "https://friendly-nobel-219a5e.netlify.app/",
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",

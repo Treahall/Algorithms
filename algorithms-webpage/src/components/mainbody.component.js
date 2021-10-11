@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { Route, Switch} from 'react-router-dom';
 import AlgorithmList from "./algorithm-list.js"
 import InsertionSortComponent from "./insertion_sort.js"
 import MergeSortComponent from "./merge_sort.js"
