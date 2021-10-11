@@ -4,10 +4,9 @@ import { IconButton, Drawer, Divider, AppBar, Box, CssBaseline,
     } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
+import GoogleLogin from 'react-google-login';
 
 const drawerWidth = 240;
-
-
 
 function ResponsiveDrawer(props) {
     const { children } = props;
@@ -22,6 +21,11 @@ function ResponsiveDrawer(props) {
     const handleListItemClick = (event, index) => {
       setSelectedIndex(index);
     };
+
+    const responseGoogle=(response)=>{
+        console.log(response);
+        console.log(response.profileObj);
+    }
 
     const drawer = (
         <div>
@@ -60,8 +64,6 @@ function ResponsiveDrawer(props) {
         </div>
     );
 
-
-
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -83,45 +85,58 @@ function ResponsiveDrawer(props) {
                     <MenuIcon />
                     </IconButton>
                     <Button component={Link} color="inherit" onClick={(event) => handleListItemClick(event, -1)}
-                        to="/" style={{ textDecoration: 'none' }}
+                        to="/" style={{ textDecoration: 'none', ml: 0 }}
                     >
                         <Typography component="div" variant="h6" noWrap >
                             Algorithms
                         </Typography>
                     </Button>
+                    <Box sx={{flexGrow: 1}} />
+                    <Button component={GoogleLogin}
+                    clientId="124192276419-9d96sqr4hfb0tti2rptuchq3qc0bk1jm.apps.googleusercontent.com"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={'single_host_origin'}
+                    sx={{ alignItems: "flex-end"}}
+                    >
+                        Login
+                    </Button>
                 </Toolbar>
             </AppBar>
+            
             <Box
                 component="nav"
                 sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
                 aria-label="mailbox folders"
-            >
+                >
                 {/* ### The mobile (aka small) version of the drawer ### */}
                 <Drawer
-                variant="temporary"
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                ModalProps={{
-                    keepMounted: true, // Better open performance on mobile.
-                }}
-                sx={{
-                    display: { xs: 'block', sm: 'none' },
-                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                }}
-                >
-                    {drawer}
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                        display: { xs: 'block', sm: 'none' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    }}
+                    >
+                        {drawer}
                 </Drawer>
+
                 {/* ### The desktop (aka large) version of the drawer ### */}
                 <Drawer
-                variant="permanent"
-                sx={{
-                    display: { xs: 'none', sm: 'block' }, flexShrink: 0,
-                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                }}
-                open
-                >
-                    {drawer}
+                    variant="permanent"
+                    sx={{
+                        display: { xs: 'none', sm: 'block' }, flexShrink: 0,
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    }}
+                    open
+                    >
+                        {drawer}
                 </Drawer>
+
             </Box>
 
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
