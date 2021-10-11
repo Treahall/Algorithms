@@ -9,6 +9,14 @@ const userSchema = new Schema({
         trim: true,
         minlength: 3
     },
+
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    
 }, {
     timestamps: true,
 
@@ -17,5 +25,3 @@ const userSchema = new Schema({
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
-
-

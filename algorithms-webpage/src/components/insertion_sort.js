@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import "fontsource-roboto";
 import axios from 'axios';
+import VisualizerComponent from './visualizer.component';
 
 function InsertionSortComponent(props){
   const [data, setData] = useState([]);
@@ -10,7 +11,7 @@ function InsertionSortComponent(props){
   });
 
   function getData(){
-    axios.get('http://localhost:5000/algorithms')
+    axios.get('https://learn-algorithms.herokuapp.com/algorithms')
       .then(res => {
         setData(res.data[1]);
       })
@@ -40,6 +41,7 @@ function InsertionSortComponent(props){
           <li> {data.worst_case} </li>
          </ul>
       </div>
+      <VisualizerComponent algorithm="insertion-sort" />
     </div>
   );
 }

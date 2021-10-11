@@ -26,7 +26,7 @@ export default class AlgorithmList extends Component{
   }
 
   getData(){
-    axios.get('http://localhost:5000/algorithms')
+    axios.get('https://learn-algorithms.herokuapp.com/algorithms')
       .then(res => {
         this.updateData(res.data[0]);
       })
