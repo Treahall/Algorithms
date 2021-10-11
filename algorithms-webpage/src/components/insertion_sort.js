@@ -11,7 +11,7 @@ function InsertionSortComponent(props){
   });
 
   function getData(){
-    axios.get('http://localhost:5000/algorithms')
+    axios.get('https://learn-algorithms.herokuapp.com/algorithms')
       .then(res => {
         setData(res.data[1]);
       })

@@ -5,6 +5,7 @@ import { IconButton, Drawer, Divider, AppBar, Box, CssBaseline,
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
 import GoogleLogin from 'react-google-login';
+import axios from 'axios';
 
 const drawerWidth = 240;
 
@@ -16,6 +17,17 @@ function ResponsiveDrawer(props) {
         setMobileOpen(!mobileOpen);
     };
 
+    //Handles user info
+    const [user, setUser] = React.useState();
+
+    //Handles the welcome message
+    const [welcome_message, setMessage] = React.useState();
+
+    //Updates welcome message on load/update
+    React.useEffect(() =>{
+      updateWelcomeMessage();
+    })
+
     const [selectedIndex, setSelectedIndex] = React.useState(-1);
 
     const handleListItemClick = (event, index) => {
@@ -24,7 +36,36 @@ function ResponsiveDrawer(props) {
 
     const responseGoogle=(response)=>{
         console.log(response);
-        console.log(response.profileObj);
+        postGoogleUserData(response.profileObj);
+    }
+
+    //Updates the welcome message if the user is logged in.
+    function updateWelcomeMessage(){
+      if(user == null){
+        return;
+      }
+      else{
+        setMessage(`Welcome, ${user}.`);
+      }
+    }
+    //Posts new user to the database
+    function postGoogleUserData(profileObj){
+        axios.post('https://learn-algorithms.herokuapp.com/users/add', {
+          username: profileObj.name,
+          email: profileObj.email
+        })
+          .then(res =>{
+            console.log(res);
+            setUser(profileObj.name);
+          })
+          .catch(err=>{
+            if(err.response.data.indexOf('duplicate key error') !== -1){
+              console.log("Account already exists!");
+            }
+            else{
+              console.log(err);
+            }
+          })
     }
 
     const drawer = (
@@ -92,6 +133,7 @@ function ResponsiveDrawer(props) {
                         </Typography>
                     </Button>
                     <Box sx={{flexGrow: 1}} />
+                    <Box sx={{flexGrow: 1}}>{welcome_message}</Box>
                     <Button component={GoogleLogin}
                     clientId="124192276419-9d96sqr4hfb0tti2rptuchq3qc0bk1jm.apps.googleusercontent.com"
                     onSuccess={responseGoogle}
@@ -103,7 +145,7 @@ function ResponsiveDrawer(props) {
                     </Button>
                 </Toolbar>
             </AppBar>
-            
+
             <Box
                 component="nav"
                 sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
