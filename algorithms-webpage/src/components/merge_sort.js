@@ -1,6 +1,7 @@
 import React, {Component, useState, useEffect} from 'react';
 import "fontsource-roboto";
 import axios from 'axios';
+import VisualizerComponent from './visualizer.component';
 
 function MergeSortComponent(props){
   const [data, setData] = useState([]);
@@ -28,6 +29,7 @@ function MergeSortComponent(props){
           <li> {data.worst_case} </li>
          </ul>
       </div>
+      <VisualizerComponent algorithm="merge-sort" />
     </div>
   );
 }

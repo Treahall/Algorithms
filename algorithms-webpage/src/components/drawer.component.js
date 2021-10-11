@@ -8,8 +8,6 @@ import GoogleLogin from 'react-google-login';
 
 const drawerWidth = 240;
 
-
-
 function ResponsiveDrawer(props) {
     const { children } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -105,37 +103,40 @@ function ResponsiveDrawer(props) {
                     </Button>
                 </Toolbar>
             </AppBar>
+            
             <Box
                 component="nav"
                 sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
                 aria-label="mailbox folders"
-            >
+                >
                 {/* ### The mobile (aka small) version of the drawer ### */}
                 <Drawer
-                variant="temporary"
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                ModalProps={{
-                    keepMounted: true, // Better open performance on mobile.
-                }}
-                sx={{
-                    display: { xs: 'block', sm: 'none' },
-                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                }}
-                >
-                    {drawer}
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                        display: { xs: 'block', sm: 'none' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    }}
+                    >
+                        {drawer}
                 </Drawer>
+
                 {/* ### The desktop (aka large) version of the drawer ### */}
                 <Drawer
-                variant="permanent"
-                sx={{
-                    display: { xs: 'none', sm: 'block' }, flexShrink: 0,
-                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                }}
-                open
-                >
-                    {drawer}
+                    variant="permanent"
+                    sx={{
+                        display: { xs: 'none', sm: 'block' }, flexShrink: 0,
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    }}
+                    open
+                    >
+                        {drawer}
                 </Drawer>
+
             </Box>
 
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
