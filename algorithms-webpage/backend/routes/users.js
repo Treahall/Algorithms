@@ -18,4 +18,14 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('ERROR: ' + err));
 });
 
+router.route('/put/:id').put((req, res) => {
+    User.findByIdAndUpdate({_id: req.params.id}, req.body)
+      .then(() => {
+        User.findOne({_id: req.params.id})
+          .then((user) =>{
+            res.json(user);
+          })
+      });
+});
+
 module.exports = router;

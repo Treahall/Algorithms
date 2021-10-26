@@ -16,7 +16,14 @@ const userSchema = new Schema({
       unique: true,
       trim: true,
     },
-    
+
+    file: {
+      type: Object,
+      required: false,
+      unique: false,
+      trim: false,
+    },
+
 }, {
     timestamps: true,
 

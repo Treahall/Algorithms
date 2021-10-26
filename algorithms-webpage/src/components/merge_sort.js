@@ -2,9 +2,11 @@ import React, {Component, useState, useEffect} from 'react';
 import "fontsource-roboto";
 import axios from 'axios';
 import VisualizerComponent from './visualizer.component';
+import {Button} from '@mui/material';
 
 function MergeSortComponent(props){
   const [data, setData] = useState([]);
+  const [files, setFile] = useState([]);
 
   useEffect(() => {
     getData();
@@ -17,37 +19,57 @@ function MergeSortComponent(props){
       })
   }
 
+  const handleFileUpload = (event) => {
+    setFile(files.push(event.target.files[0]));
+    axios.put('localhost:5000/users/put/6176d936b4e24fb9ee53e5c3', {
+        file: files
+    })
+      .then(res =>{
+        console.log(res);
+      })
+      .catch(err =>{
+        console.log(err);
+      })
+  };
+
+  function handleFileDownload(){
+    return;
+  }
+
   return(
     <div>
-      <div className = "container">
-        <h3 style={{textAlign: "center"}}> Data Received: </h3>
-        <ul>
-          <li> {data.name} </li>
-          <li> <p> {data.description} </p> </li>
-          <li> {data.best_case} </li>
-          <li> {data.average_case} </li>
-          <li> {data.worst_case} </li>
-         </ul>
+      <div>
+        <h3 style={{textAlign: "center"}}> {data.name} </h3>
+        <h4> Description: </h4>
+        <p style={{textAlign: "center"}}> {data.description} </p>
+        <h4> Time Complexity: </h4>
+        <p> Best Case: {data.best_case} </p>
+        <p> Average Case: {data.average_case} </p>
+        <p> Worst Case: {data.worst_case} </p>
       </div>
       <VisualizerComponent algorithm="merge-sort" />
+      <div>
+        <h3>Write your own merge sort implementation below!</h3>
+        <input
+        type="file"
+        accept=".zip, .py"
+        style={{ display: 'none' }}
+        id="upload-button"
+        onChange={handleFileUpload}
+        />
+        <label htmlFor="upload-button">
+          <Button sx={{m: '0px', size: {xs: 'small'}}} component="span">
+            Upload
+            </Button>
+        </label>
+        <Button onClick={handleFileDownload} sx={{m: '0px', size: {xs: 'small'}}}>
+            Download
+        </Button>
+        <iframe src="https://trinket.io/embed/python/1f094fdc0f?runOption=run?" width="100%" height="356" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+      </div>
     </div>
   );
 }
-
-//TODO: connect graphics to insertion_sort function.
-//Could use react spring for the animations.
-//General method for connection:
-//1. Start button on screen to signal animation start.
-//2. Run operation of insertion_sort.
-//  2a. Animation should show which element is being sorted (different color)
-//  2b. Elements that are being compared to the element being sorted should be another color.
-//  2c. Swap elements.
-//3. Repeat until insertion_sort is done.
-
-//To simplify things, we could just add in an animation, loop it, and explain
-//what's happening. We would do this with small datasets.
-//We will do the above method for large datasets (1000+ numbers);
-//However, I'm predicting that we will run into lag issues. Not sure how we will fix that.
 
 
 export default MergeSortComponent;

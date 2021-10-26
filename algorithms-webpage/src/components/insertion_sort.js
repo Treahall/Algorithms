@@ -17,6 +17,7 @@ function InsertionSortComponent(props){
       })
   }
 
+<<<<<<< Updated upstream
   function insertion_sort(A){
     for(let i = 1; i < A.length; i++){
       let key = A[i];
@@ -28,20 +29,25 @@ function InsertionSortComponent(props){
       A[j + 1] = key
     }
   }
+=======
+>>>>>>> Stashed changes
 
   return(
     <div>
-      <div className = "container">
-        <h3 style={{textAlign: "center"}}> Data Received: </h3>
-        <ul>
-          <li> {data.name} </li>
-          <li> <p> {data.description} </p> </li>
-          <li> {data.best_case} </li>
-          <li> {data.average_case} </li>
-          <li> {data.worst_case} </li>
-         </ul>
+      <div>
+        <h3 style={{textAlign: "center"}}> {data.name} </h3>
+        <h4> Description: </h4>
+        <p style={{textAlign: "center"}}> {data.description} </p>
+        <h4> Time Complexity: </h4>
+        <p> Best Case: {data.best_case} </p>
+        <p> Average Case: {data.average_case} </p>
+        <p> Worst Case: {data.worst_case} </p>
       </div>
       <VisualizerComponent algorithm="insertion-sort" />
+      <div>
+        <h3>Write your own insertion sort implementation below!</h3>
+        <iframe src="https://trinket.io/embed/python/7826b47750?runOption=run" width="100%" height="356" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+      </div>
     </div>
   );
 }

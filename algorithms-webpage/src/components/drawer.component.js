@@ -48,6 +48,7 @@ function ResponsiveDrawer(props) {
         setMessage(`Welcome, ${user}.`);
       }
     }
+
     //Posts new user to the database
     function postGoogleUserData(profileObj){
         axios.post('https://learn-algorithms.herokuapp.com/users/add', {
@@ -60,7 +61,8 @@ function ResponsiveDrawer(props) {
           })
           .catch(err=>{
             if(err.response.data.indexOf('duplicate key error') !== -1){
-              console.log("Account already exists!");
+              console.log("Account already exists in database!");
+              setUser(profileObj.name);
             }
             else{
               console.log(err);
@@ -129,7 +131,7 @@ function ResponsiveDrawer(props) {
                         to="/" style={{ textDecoration: 'none', ml: 0 }}
                     >
                         <Typography component="div" variant="h6" noWrap >
-                            Algorithms
+                            Learn Algorithms
                         </Typography>
                     </Button>
                     <Box sx={{flexGrow: 1}} />
