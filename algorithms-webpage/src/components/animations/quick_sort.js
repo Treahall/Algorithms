@@ -1,6 +1,9 @@
 
 
 
-export function quickSort(array) {
-    
+export function getQuickSortAnimations(array) {
+    const animations = []
+
+
+    return animations.reverse()
 }

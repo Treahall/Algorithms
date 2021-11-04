@@ -1,6 +1,9 @@
 
 
 
-export function insertionSort(array) {
-    
+export function getInsertionSortAnimations(array) {
+    const animations = []
+
+
+    return animations.reverse()
 }

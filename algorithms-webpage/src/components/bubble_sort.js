@@ -30,7 +30,7 @@ function BubbleSortComponent(props){
           <li> {data.worst_case} </li>
          </ul>
       </div>
-      <VisualizerComponent algorithm="bubble-sort" />
+      <VisualizerComponent algorithm="merge-sort" />
     </div>
   );
 }

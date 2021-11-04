@@ -2,6 +2,7 @@ import React, {Component, useState, useEffect} from 'react';
 import "fontsource-roboto";
 import axios from 'axios';
 import VisualizerComponent from './visualizer.component';
+import TestVisualizerComponent from './testVisualizer.component';
 
 function MergeSortComponent(props){
   const [data, setData] = useState([]);
@@ -29,12 +30,12 @@ function MergeSortComponent(props){
           <li> {data.worst_case} </li>
          </ul>
       </div>
-      <VisualizerComponent algorithm="merge-sort" />
+      <TestVisualizerComponent algorithm="merge-sort" />
     </div>
   );
 }
 
-//TODO: connect graphics to insertion_sort function.
+//TODO: connect graphics to merge_sort function.
 //Could use react spring for the animations.
 //General method for connection:
 //1. Start button on screen to signal animation start.
