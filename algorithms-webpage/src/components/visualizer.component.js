@@ -2,6 +2,7 @@ import { Box, Button, FormLabel, Slider, Toolbar } from '@mui/material'
 import { width } from '@mui/system'
 import * as React from 'react'
 import {useState} from 'react'
+import { getBubbleSortAnimations } from './animations/bubble_sort'
 import { getMergeSortAnimations } from './animations/merge_sort'
 let maxArraySize = 0
 let min = 5 
@@ -100,7 +101,6 @@ const VisualizerComponent = props => {
                 animate()
                 break
             case "bubble-sort":
-                // code block
                 break
             case "quick-sort":
                 // code block

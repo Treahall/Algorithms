@@ -32,6 +32,8 @@ function MergeSortComponent(props){
       </div>
       <TestVisualizerComponent algorithm="merge-sort" />
     </div>
+
+    //! Add bottom drawer with trinket component
   );
 }
 

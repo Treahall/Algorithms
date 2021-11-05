@@ -2,6 +2,8 @@ import React, {Component, useState, useEffect} from 'react';
 import "fontsource-roboto";
 import axios from 'axios';
 import VisualizerComponent from './visualizer.component'
+import TestVisualizerComponent from './testVisualizer.component';
+
 
 function BubbleSortComponent(props){
   const [data, setData] = useState([]);
@@ -30,7 +32,7 @@ function BubbleSortComponent(props){
           <li> {data.worst_case} </li>
          </ul>
       </div>
-      <VisualizerComponent algorithm="merge-sort" />
+      <TestVisualizerComponent algorithm="bubble-sort" />
     </div>
   );
 }

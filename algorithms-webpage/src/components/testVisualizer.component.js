@@ -1,7 +1,10 @@
 import { Box, Button, FormLabel, Slider, Toolbar } from '@mui/material'
 import * as React from 'react'
 import { useReducer, useLayoutEffect, useEffect, useState } from 'react'
+import { getBubbleSortAnimations } from './animations/bubble_sort'
+import { getInsertionSortAnimations } from './animations/insertion_sort'
 import { getMergeSortAnimations } from './animations/merge_sort'
+import { getQuickSortAnimations } from './animations/quick_sort'
 let min = 5
 let max = 1000
 
@@ -105,6 +108,14 @@ const TestVisualizerComponent = props => {
                         tArray[animation[0][0]] = animation[0][1]
                         dispatchBars({ type: ACTIONS.SET_BARS, payload: {bars: tArray}}) 
                         break
+
+                    case "swap":
+                        let temp = tArray[animation[0][1]]
+                        tArray[animation[0][1]] = tArray[animation[0][0]]
+                        tArray[animation[0][0]] = temp
+                        dispatchBars({ type: ACTIONS.SET_BARS, payload: {bars: tArray}})
+                        break 
+
                     default:
                         break
                 }
@@ -214,13 +225,13 @@ const TestVisualizerComponent = props => {
                 return getMergeSortAnimations(array.slice())
 
             case "bubble-sort":
-                return []
+                return getBubbleSortAnimations(array.slice())
 
             case "quick-sort":
-                return []
+                return getQuickSortAnimations(array.slice())
 
             case "insertion-sort":
-                return []
+                return getInsertionSortAnimations(array.slice())
 
             default:
                 return []

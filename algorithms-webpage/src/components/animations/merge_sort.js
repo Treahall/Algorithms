@@ -1,7 +1,6 @@
 // File: merge_sort.implementation.js
 // Author: Trever Hall
 // Creation Date: 10/11/2021
-// Last updated: 10/11/2021
 // Description: an implementation of mergeSort that uses
     // an auxillary array. This acts like a buffer allowing
     // the array to be copied once. Then mergeSortHelper 
@@ -33,7 +32,7 @@ export function getMergeSortAnimations(array) {
 // Recursive division part of the algorithm.
 function mergeSortHelper(
     array, startI, endI, auxArray, animations
-) {
+    ) {
     // base case
     if (startI === endI) return
 
