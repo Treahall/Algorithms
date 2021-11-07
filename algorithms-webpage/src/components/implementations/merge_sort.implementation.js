@@ -21,7 +21,7 @@ export function getMergeSortAnimations(array) {
     const animations = []
 
     // If the array is of size 1 or less return.
-    if (array.length <= 1) return animations
+    if (array.length <= 1) {return animations}
 
     // Else perform mergeSort
     const auxArray = array.slice()

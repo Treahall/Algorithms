@@ -4,8 +4,8 @@ import {BrowserRouter as Router} from "react-router-dom"
 import {createTheme} from '@mui/material';
 import { purple, yellow } from '@mui/material/colors';
 import './App.css';
-import ResponsiveDrawer from "./components/drawer.component";
-import MainBody from './components/mainbody.component';
+import ResponsiveDrawer from "./components/responsiveDrawer.component";
+import Routes from './components/routes.component';
 
 const theme = createTheme({
   typography: {
@@ -27,9 +27,9 @@ function App() {
   return (
     <Router>
       <ResponsiveDrawer>
-        <MainBody>
+        <Routes>
 
-        </MainBody>
+        </Routes>
       </ResponsiveDrawer>
     </Router>
   );

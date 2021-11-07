@@ -1,264 +1,340 @@
 import { Box, Button, FormLabel, Slider, Toolbar } from '@mui/material'
-import { width } from '@mui/system'
 import * as React from 'react'
-import {useState} from 'react'
-import { getBubbleSortAnimations } from './animations/bubble_sort'
-import { getMergeSortAnimations } from './animations/merge_sort'
-let maxArraySize = 0
-let min = 5 
+import { useReducer, useLayoutEffect, useEffect, useState } from 'react'
+import { getBubbleSortAnimations } from './implementations/bubble_sort.implementation'
+import { getInsertionSortAnimations } from './implementations/insertion_sort.implementation'
+import { getMergeSortAnimations } from './implementations/merge_sort.implementation'
+import { getQuickSortAnimations } from './implementations/quick_sort.implementation'
+let min = 5
 let max = 1000
-let animations = []
-let interruptFlag = false
 
+const ACTIONS = {
+    GET_NEW_BARS: 'new-bars',
+    SET_ANIMATIONS: 'set-animations',
+    SET_BARS: 'set-bars',
+    RUN_TRUE: 'run-true',
+    RUN_FALSE: 'run-false',
+    RESET: 'reset',
+    SET_MAX_BARS: 'set-max-bars',
+    SET_DELAY: 'set-delay',
+    SET_DIMENSIONS: 'set-dimensions',
+    SET_SLIDERI: 'set-sliderI',
+    SET_NUMBARS: 'set-numbars'
+}
 
+const Visualizer = props => {
 
-const VisualizerComponent = props => {
+    // ********************************************** //
+    // *** useREF, useSTATE, AND useREDUCER HOOKS *** //
+    // ********************************************** //
+    const ref = React.useRef()
+    // barsReducer for the data of the bars.
+    const [stateBars, dispatchBars] = useReducer(barsReducer, { barsArray: [], animations: [], run: false })
+    // stateReducer for the state data.
+    const [state, dispatchState] = useReducer(stateReducer, { maxBars: 0, dimensions: {width: 0, height: 0},
+        sliderI: 0, numBars: 0})
+    // states used for animation updates
+    const [animation, setAnimation] = useState({tempArray: [], currentCompare: [], tempAnimations: []})
+    const [delay, setDelay] = useState(5)
+    const [sorted, setSorted] = useState(false)
 
-    // ************************** //
-    // *** DEFINE REACT HOOKS *** //
-    // ************************** //
-    const reference = React.useRef();
-    const [dimensions, setDimensions] = React.useState({ width: 0, height: 0 })
-    const [arraySize, setArraySize] = React.useState(0)
-    const [sliderI, setSliderI] = React.useState(0)
-    const [delay, setDelay] = React.useState(5)
-    const [data, setData] = React.useState([])
-
-    // OnMount Hook:
-    //   Get the dimesions of the visualizer container 
-    //   and add event handler for window resize.
-    React.useEffect(() => {
-
-        // Create eventHandler
+    // *********************** //
+    // *** USEEFFECT HOOKS *** //
+    // *********************** //
+    
+    // Handle BEFORE MOUNT effects, useRef for dimensions and calculating maxbars.
+    useLayoutEffect(() => {
         function handleResize() {
-            if (reference.current) {
-                setDimensions({
-                    width: reference.current.offsetWidth,
-                    height: reference.current.offsetHeight
-                })
-                // At max array size each bar is 3px wide (1px margin on sides and 1px bar),
-                // thus divide width by three to get the maxArraySize that will fit on the screen.
+            if(ref.current){
+                dispatchState({ type: ACTIONS.SET_MAX_BARS, payload: { width: ref.current.offsetWidth }})
+                dispatchState({ type: ACTIONS.SET_DIMENSIONS, payload: { width: ref.current.offsetWidth,
+                    height: ref.current.offsetHeight} })
             }
         }
         handleResize()
-        // Add eventHander and initialize
+        dispatchState({ type: ACTIONS.SET_NUMBARS, payload: { num: Math.floor(ref.current.offsetWidth/8) } })
+        dispatchState({ type: ACTIONS.SET_SLIDERI, payload: { num: Math.floor(ref.current.offsetWidth/8) } })
         window.addEventListener('resize', handleResize)
-        init()
-        // Clean up event handler.
         return () => {
             window.removeEventListener('resize', handleResize)
+        };
+    }, [])
+
+    // Side effects of numBars: get new bars of size numBars.
+    useEffect(() => {
+        setSorted(false)
+        dispatchBars({ type: ACTIONS.GET_NEW_BARS, payload: { num: state.numBars} })
+    }, [state.numBars])
+
+    useEffect(() => {
+        if(stateBars.run){
+            let tArray = stateBars.barsArray.slice()
+            let cCompare = []
+            let tAnimations = stateBars.animations.slice()
+
+            setSorted(true)
+            setAnimation({tempArray: tArray, currentCompare: cCompare, tempAnimations: tAnimations})
         }
-	}, [])
 
-    // On dimensions update Hook:
-    // Upon window size change, if the current arraySize is larger than the 
-    // new maxArraySize then lower the arraySize to the current max. 
-    React.useEffect(() => {
-        maxArraySize = Math.floor(dimensions.width/4)
-        if (arraySize > maxArraySize) {
-            setArraySize(maxArraySize)
+        return () => {
+            return
         }
-    }, [dimensions])
+    }, [stateBars.run])
 
-    // On arraySize update Hook:
-    // when the arraySize is changed then fill 'data' with a new array of that size.
-    React.useEffect(() => {
-        updateData()
-    }, [arraySize])
+    useEffect(() => {
+        let tAnimations = animation.tempAnimations
+        let cCompare = animation.currentCompare
+        let aBars = document.getElementsByClassName('array-bar')
+        let tArray = animation.tempArray
+
+        console.log(stateBars.run)
+        if(stateBars.run && tAnimations.length > 0){
+            let animation = tAnimations.pop()
+            setTimeout(() => {
+                switch(animation[1]) {
+                    case "compare":
+                        if(cCompare){
+                            cCompare.forEach(index => {
+                                aBars[index].style.backgroundColor = 'turquoise'
+                            })
+                        }
+                        animation[0].forEach(index => {
+                            aBars[index].style.backgroundColor = 'red'
+                        })
+                        cCompare = animation[0]
+                        break
+
+                    case "write":
+                        tArray[animation[0][0]] = animation[0][1]
+                        dispatchBars({ type: ACTIONS.SET_BARS, payload: {bars: tArray}}) 
+                        break
+
+                    case "swap":
+                        let temp = tArray[animation[0][1]]
+                        tArray[animation[0][1]] = tArray[animation[0][0]]
+                        tArray[animation[0][0]] = temp
+                        dispatchBars({ type: ACTIONS.SET_BARS, payload: {bars: tArray}})
+                        break 
+
+                    default:
+                        break
+                }
+                aBars = document.getElementsByClassName('array-bar')
+                setTimeout(() => {
+                    console.log("in the algorithm")
+                    setAnimation({ tempArray: tArray, currentCompare: cCompare, tempAnimations: tAnimations, delay: delay })
+                }, delay)
+            }, delay)
+        }
+        else{
+            setTimeout(() => {
+                cCompare.forEach(index => {
+                    aBars[index].style.backgroundColor = 'turquoise'
+                })
+                dispatchBars({ type: ACTIONS.RUN_FALSE })
+            }, delay)
+        }
 
 
-    // *********************** //
-    // *** EVENT LISTENERS *** //
-    // *********************** //
-    // Update the array with new random data.
-    const handleResetData = () => {
-        updateData()
-    }
+        return () => {
+            
+        }
+    }, [animation])
 
-    // Update the arraySize
-    const handleChangeArraySize = (event, newValue) => {
-        setArraySize(newValue)
-    }
+    // ************************* //
+    // *** REDUCER HANDELING *** //
+    // ************************* //
 
-    // Update the index of the slider, for seeing the size before 
-    // selecting a new arraySize
-    const handleChangeSliderI = (event, newValue) => {
-        setSliderI(newValue)
-    }
+    // Logic handling for the bars
+    function barsReducer(stateBars, action) {
+        
+        switch (action.type) {
+            case ACTIONS.GET_NEW_BARS:
+                let array = []
+                for (let i = 0; i < action.payload.num; i++) {
+                    array.push(Math.floor(Math.random() * (max - min + 1) + min))
+                }
+                let a = getAnimations(array)
+                return {...stateBars, barsArray: array, animations: a, run: false }
 
-    // Update the Delay of the animations.
-    const handleChangeDelay = (event, newValue) => {
-        setDelay(newValue)
-    }
+            case ACTIONS.RUN_TRUE:
+                return {...stateBars, run: true}
+                
+            case ACTIONS.RUN_FALSE:
+                return {...stateBars, run: false}
 
-    //Todo: generate a random array of data as a React hook, so the visualization updates when the data changes.
-    //Todo: Connect that data to the current algorithm.
-    const runAlgorithm = () => {
-        // Determine what algorithm to use.
-        switch(props.algorithm) {
-            case "merge-sort":
-                animations = getMergeSortAnimations(data.slice())
-                animate()
-                break
-            case "bubble-sort":
-                break
-            case "quick-sort":
-                // code block
-                break
-            case "insertion-sort":
-                // code block
-                break
+            case ACTIONS.SET_BARS:
+                return {...stateBars, barsArray: action.payload.bars}
             default:
-                // code block
+                return stateBars
         }
-        //Todo: run the animations that are returned from the switch statement.
     }
 
+    // Logic handling for all states.
+    function stateReducer(state, action) {
+        switch (action.type) {
+            case ACTIONS.RESET: 
+                
+                break
 
+            case ACTIONS.SET_MAX_BARS:
+                let maxB = Math.floor(action.payload.width/4)
+                if( maxB < state.numBars || state.maxBars === 0) {
+                    return {...state, maxBars: maxB, numBars: maxB}
+                }
+                return {...state, maxBars: maxB}
 
+            case ACTIONS.SET_DIMENSIONS:
+                return {...state, dimensions: {width: action.payload.width,
+                     height: action.payload.height}}
+
+            case ACTIONS.SET_SLIDERI:
+                return {...state, sliderI: action.payload.num}
+
+            case ACTIONS.SET_NUMBARS:
+                return {...state, numBars: action.payload.num}
+
+            default:
+                return state
+        }
+    }
+
+    //Todo: when array
+
+    // ********************** //
+    // *** EVENT HANDLERS *** //
+    // ********************** //
+    
+    const handleRunAlgorithmClick = async () => {
+        if(!sorted){
+            dispatchBars({ type: ACTIONS.RUN_TRUE})
+        }
+    }
+
+    const handleGenerateNewDataClick = async () => {
+        setSorted(false)
+        dispatchBars({ type: ACTIONS.GET_NEW_BARS, payload: { num: state.numBars } })
+    }
 
     // ************************ //
     // *** HELPER FUNCTIONS *** //
     // ************************ //
-    function animate(){
+    function getAnimations(array) {
+        switch(props.algorithm) {
+            case "merge-sort":
+                return getMergeSortAnimations(array.slice())
 
-        let tempArray = data.slice()
-        let prevCompare = []
-        let arrayBars = document.getElementsByClassName('array-bar')
-        for(let i = 0; i < animations.length; i++){
-            if(interruptFlag){
-                interruptFlag = false
-                return
-            }
-            setTimeout(() => {
-                switch (animations[i][1]) {
+            case "bubble-sort":
+                return getBubbleSortAnimations(array.slice())
 
-                    case "compare":
-                        if(prevCompare){
-                            prevCompare.forEach(index => {
-                                arrayBars[index].style.backgroundColor = 'turquoise'
-                            })
-                        }
-                        animations[i][0].forEach(index => {
-                            arrayBars[index].style.backgroundColor = 'red'
-                        })
-                        prevCompare = animations[i][0]
-                        break
+            case "quick-sort":
+                return getQuickSortAnimations(array.slice())
 
-                    case "write":
-                        tempArray[animations[i][0][0]] = animations[i][0][1] 
-                        break
-                    default:
-                        break
-                }
-            }, i * delay)
-            arrayBars = document.getElementsByClassName('array-bar')
+            case "insertion-sort":
+                return getInsertionSortAnimations(array.slice())
+
+            default:
+                return []
         }
-        prevCompare.forEach(index => {
-            arrayBars[index].style.backgroundColor = 'turquoise'
-        })
-        setData(tempArray)
-        
-    }
-
-    // Returns a list of new random integers the size of arraySize.
-    function getArray() {
-        let array = []
-
-        // Push new integers into array
-        for (let i = 0; i < arraySize; i++) {
-            array.push(Math.floor(Math.random() * (max - min + 1) + min))
-        }
-        return array
-    }
-
-    // Generates a new array and sets 'data' to it.
-    function updateData() {
-        setData(getArray())
-    }
-    
-    function init() {
-        setArraySize(maxArraySize)
     }
 
     // ****************************** //
     // *** DOM ELEMENTS TO RETURN *** //
     // ****************************** //
     return (
-        <Box>
+        <>
             <hr/>
-            {/* visualization is in here */}
-            <Box ref={reference}
+            {/* Bar Visualization is generated here using styling. */}
+            {/* container for the bars. */}
+            <Box ref={ref}
                 sx={{ 
                     height: `${window.innerHeight/2}px`,
                     justifyItems: 'center'
-                 }}
-            >
-                {data.map( (value, idx) => (
+                }}
+                >
+                {/* map barsArray to a function that generates a bar for each value. */}
+                {stateBars.barsArray.map( (value, idx) => (
                     <Box className='array-bar' key={idx}
                         sx={{ 
                             display: 'inline-block',
                             backgroundColor: 'turquoise',
                             minWidth: '2px',
-                            width: `${((maxArraySize*4)-(arraySize*2))/arraySize}px`,
+                            width: `${((state.maxBars*4)-(state.numBars*2))/state.numBars}px`,
                             margin: '0 1px',
-                            height: `${dimensions.height*(value/max)}px`}}
-                    >
+                            height: `${state.dimensions.height*(value/max)}px`}}
+                        >
                     </Box>
                 ))}
             </Box>
 
-            {/* visualization controls are in this box */}
-            <Toolbar>
+            {/* Inputs to change the properties of the visualization. */}
+            <Box>
+                <Toolbar>
+                    {/* Button to run the algorithm. */}
+                    <Button 
+                        onClick={handleRunAlgorithmClick} 
+                        sx={{m: '0px', size: {xs: 'small'}}}
+                        >
+                        Run Algorithm
+                    </Button>
 
-                {/* RunAlgorithm Button. */}
-                <Button onClick={runAlgorithm} sx={{m: '0px', size: {xs: 'small'}}}>
-                    Run Algorithm
-                </Button>
+                    {/* Button to generate new barsArray. */}
+                    <Button 
+                        onClick={handleGenerateNewDataClick}
+                        sx={{ size: {xs: 'small'}}} 
+                        >
+                        Generate New Data
+                    </Button>
+                    
+                    {/* Fills in the white space. */}
+                    <Box sx={{flexGrow: 1}} />
 
-                {/* Slider to change array size. */}
-                <FormLabel sx={{ m: '0px 10px 0px 15px' }}> Change Array Size: </FormLabel>
-                <Slider 
-                    onChange={handleChangeSliderI}
-                    onChangeCommitted={handleChangeArraySize} 
-                    min={10} 
-                    max={maxArraySize}
-                    size='small' 
-                    sx={{ width: 100 }}  
-                    value={sliderI}
-                    valueLabelDisplay="auto"
-                    > </Slider>
-                <Box sx={{flexGrow: 1}} />
+                    {/* Slider to change the size of the barsArray. */}
+                    <FormLabel sx={{ m: '0px 10px 0px 15px' }}> Change Array Size: </FormLabel>
+                    <Slider 
+                        onChange={(e) => dispatchState({ type: ACTIONS.SET_SLIDERI, payload: {num: e.target.value} })} // Update sliderI.
+                        onChangeCommitted={() => dispatchState({ type: ACTIONS.SET_NUMBARS, payload: {num: state.sliderI} })} // Update numBars
+                        min={10} 
+                        max={state.maxBars}
+                        step={1}
+                        size='small' 
+                        sx={{ width: 100 }}  
+                        value={state.sliderI}
+                        valueLabelDisplay="auto"
+                        > </Slider>
 
-                {/* Button to generate new data. */}
-                <Button id='newDataButton' onClick={handleResetData} sx={{ size: {xs: 'small'}}} >
-                    Generate New Data
-                </Button>
-
-                {/* Slider to change the animation Delay. */}
-                <FormLabel sx={{ m: '0px 10px 0px 15px' }}> Change Delay: </FormLabel>
-                <Slider onChange={handleChangeDelay} size='small' sx={{width: 100}}
-                    valueLabelDisplay="auto"> </Slider> 
-            </Toolbar>
+                    {/* Slider to change the speed of the algorithm. */}
+                    <FormLabel sx={{ m: '0px 10px 0px 15px' }}> Change Delay: </FormLabel>
+                    <Slider 
+                        onChange={(e) => setDelay(e.target.value)} 
+                        min={1}
+                        max={100}
+                        size='small' 
+                        sx={{width: 100}}
+                        value={delay}
+                        valueLabelDisplay="auto"
+                        > </Slider> 
+                    </Toolbar>
+            </Box>
             <hr/>
 
             {/* debug data. */}
-            <Box>
+            {/* <Box>
                 <ul>
                     <li>
-                        - Max array size = {maxArraySize}
+                        - MaxBars = {state.maxBars}
                     </li>
                     <li>
-                        - Width = {dimensions.width}
+                        - Width = {state.dimensions.width}
                     </li>
                     <li>
-                        - arraySize = {arraySize}
+                        - numBars = {state.numBars}
                     </li>
                 </ul>
-            </Box>
-        </Box>
-        
+            </Box> */}
+        </>
     )
+
 }
 
-export default VisualizerComponent
+export default Visualizer

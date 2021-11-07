@@ -14,6 +14,9 @@
 export function getInsertionSortAnimations(array) {
     const animations = []
 
+    // If the array is of size 1 or less return.
+    if (array.length <= 1) {return animations}
+
     insertionSortHelper(array, animations)
 
     return animations.reverse()

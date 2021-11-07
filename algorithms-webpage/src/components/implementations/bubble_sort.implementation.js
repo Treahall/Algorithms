@@ -1,4 +1,4 @@
-// File: merge_sort.implementation.js
+// File: bubble_sort.implementation.js
 // Author: Trever Hall
 // Creation Date: 10/11/2021
 // Description: an implementation of bubble sort that returns instructions for animating the algorithm.
@@ -11,9 +11,11 @@
     // "swap" - the parameters are the two indexes to swap.
 
 
-
 export function getBubbleSortAnimations(array) {
     const animations = []
+
+    // If the array is of size 1 or less return.
+    if (array.length <= 1) {return animations}
 
     bubbleSortHelper(array, animations)
 
