@@ -11,7 +11,7 @@ function InsertionSortContext(props){
   });
 
   function getData(){
-    axios.get('http://localhost:5000/algorithms')
+    axios.get('https://learn-algorithms.herokuapp.com/algorithms')
       .then(res => {
         setData(res.data[1]);
       })
@@ -30,6 +30,10 @@ function InsertionSortContext(props){
          </ul>
       </div>
       <Visualizer algorithm="insertion-sort" />
+      <div>
+        <h3>Write your own insertion sort implementation below!</h3>
+        <iframe src="https://trinket.io/embed/python/7826b47750?runOption=run" width="100%" height="356" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+      </div>
     </div>
 
     //TODO: Add bottom drawer with trinket component

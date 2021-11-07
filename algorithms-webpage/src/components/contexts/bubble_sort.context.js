@@ -11,7 +11,7 @@ function BubbleSortContext(props){
   });
 
   function getData(){
-    axios.get('http://localhost:5000/algorithms')
+    axios.get('https://learn-algorithms.herokuapp.com/algorithms')
       .then(res => {
         setData(res.data[3]);
       })
@@ -30,6 +30,10 @@ function BubbleSortContext(props){
          </ul>
       </div>
       <Visualizer algorithm="bubble-sort" />
+      <div>
+        <h3>Write your own bubble sort implementation below!</h3>
+        <iframe src="https://trinket.io/embed/python/cdf146c96f?runOption=run" width="100%" height="356" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+      </div>
     </div>
 
     //TODO: Add bottom drawer with trinket component
