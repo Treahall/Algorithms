@@ -27,7 +27,7 @@ function MergeSortContext(props){
         for(let i = 0; i < res.data.length; i++){
           if (res.data[i].username == user){
             axios.put(`https://learn-algorithms.herokuapp.com/users/put/${res.data[i]._id}`, {
-              file: [paramFile]
+              file: paramFile
             })
               .then(res => {
                 console.log(res);
