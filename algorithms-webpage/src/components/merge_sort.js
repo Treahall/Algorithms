@@ -1,12 +1,12 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 import "fontsource-roboto";
 import axios from 'axios';
 import VisualizerComponent from './visualizer.component';
 import {Button} from '@mui/material';
 
+
 function MergeSortComponent(props){
   const [data, setData] = useState([]);
-  const [files, setFile] = useState([]);
 
   useEffect(() => {
     getData();
@@ -19,21 +19,66 @@ function MergeSortComponent(props){
       })
   }
 
-  const handleFileUpload = (event) => {
-    setFile(files.push(event.target.files[0]));
-    axios.put('localhost:5000/users/put/6176d936b4e24fb9ee53e5c3', {
-        file: files
-    })
-      .then(res =>{
-        console.log(res);
-      })
-      .catch(err =>{
-        console.log(err);
-      })
+  function uploadFile(paramFile, sortName){
+    let user = document.getElementById("welcome_box").innerHTML.slice(9, -1);
+    if (user == "") console.log("ERROR: no user logged in");
+    else{
+      axios.get('https://learn-algorithms.herokuapp.com/users')
+      .then(res => {
+        for(let i = 0; i < res.data.length; i++){
+          if (res.data[i].username == user){
+            axios.put(`https://learn-algorithms.herokuapp.com/users/put/${res.data[i]._id}`, {
+              file: [paramFile, sortName]
+            })
+              .then(res => {
+                console.log(res);
+              });
+          }
+        }
+      });
+
+      
+    }
+  }
+
+  const onChange = e => {
+    const fileReader = new FileReader();
+    fileReader.onload = function (){
+      let fileName = e.target.files[0].name;
+      uploadFile([fileReader.result, fileName]);
+    }
+    fileReader.readAsText(e.target.files[0]);
   };
 
   function handleFileDownload(){
-    return;
+    let user = document.getElementById("welcome_box").innerHTML.slice(9, -1);
+    if (user == "") console.log("ERROR: no user logged in")
+    else{
+      axios.get('https://learn-algorithms.herokuapp.com/users')
+      .then(res => {
+        for(let i = 0; i < res.data.length; i++){
+          if (res.data[i].username == user){
+            let id = res.data[i]._id;
+            axios.get(`https://learn-algorithms.herokuapp.com/users/${id}`)
+              .then(res =>{
+                const newFile = new Blob([res.data.file[0]], {type: "octet-stream"});
+                const href = URL.createObjectURL(newFile);
+                const a = Object.assign(document.createElement('a'),{
+                  href, 
+                  style:"display:none", 
+                  download:`${res.data.file[1]}`,
+                });
+                document.body.appendChild(a);
+
+                a.click();
+                URL.revokeObjectURL(href);
+                a.remove();
+              });
+          }
+        }
+      });
+    }
+    
   }
 
   return(
@@ -51,16 +96,16 @@ function MergeSortComponent(props){
       <div>
         <h3>Write your own merge sort implementation below!</h3>
         <input
-        type="file"
-        accept=".zip, .py"
-        style={{ display: 'none' }}
-        id="upload-button"
-        onChange={handleFileUpload}
+          type="file"
+          accept=".py"
+          style={{ display: 'none' }}
+          id="upload-button"
+          onChange={onChange}
         />
         <label htmlFor="upload-button">
           <Button sx={{m: '0px', size: {xs: 'small'}}} component="span">
             Upload
-            </Button>
+          </Button>
         </label>
         <Button onClick={handleFileDownload} sx={{m: '0px', size: {xs: 'small'}}}>
             Download

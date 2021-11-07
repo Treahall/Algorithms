@@ -35,7 +35,6 @@ function ResponsiveDrawer(props) {
     };
 
     const responseGoogle=(response)=>{
-        console.log(response);
         postGoogleUserData(response.profileObj);
     }
 
@@ -56,12 +55,10 @@ function ResponsiveDrawer(props) {
           email: profileObj.email
         })
           .then(res =>{
-            console.log(res);
             setUser(profileObj.name);
           })
           .catch(err=>{
             if(err.response.data.indexOf('duplicate key error') !== -1){
-              console.log("Account already exists in database!");
               setUser(profileObj.name);
             }
             else{
@@ -135,7 +132,7 @@ function ResponsiveDrawer(props) {
                         </Typography>
                     </Button>
                     <Box sx={{flexGrow: 1}} />
-                    <Box sx={{flexGrow: 1}}>{welcome_message}</Box>
+                    <Box id="welcome_box" sx={{flexGrow: 1}}>{welcome_message}</Box>
                     <Button component={GoogleLogin}
                     clientId="124192276419-9d96sqr4hfb0tti2rptuchq3qc0bk1jm.apps.googleusercontent.com"
                     onSuccess={responseGoogle}
