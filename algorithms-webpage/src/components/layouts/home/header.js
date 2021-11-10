@@ -1,3 +1,4 @@
+// Header for the home layout
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material'
 import React from 'react'
 import { Logo } from '../../../images/icons'
