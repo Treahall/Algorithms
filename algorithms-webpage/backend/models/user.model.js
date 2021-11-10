@@ -18,7 +18,28 @@ const userSchema = new Schema({
       trim: true,
     },
 
-    file: {
+    insertionFile: {
+      type: Array,
+      required: false,
+      unique: false,
+      trim: false,
+    },
+
+    mergeFile: {
+      type: Array,
+      required: false,
+      unique: false,
+      trim: false,
+    },
+
+    bubbleFile: {
+      type: Array,
+      required: false,
+      unique: false,
+      trim: false,
+    },
+
+    quickFile: {
       type: Array,
       required: false,
       unique: false,

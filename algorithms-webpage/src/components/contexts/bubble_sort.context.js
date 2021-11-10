@@ -27,7 +27,7 @@ function BubbleSortContext(props){
         for(let i = 0; i < res.data.length; i++){
           if (res.data[i].username == user){
             axios.put(`https://learn-algorithms.herokuapp.com/users/put/${res.data[i]._id}`, {
-              file: paramFile
+              bubbleFile: paramFile
             })
               .then(res => {
                 console.log(res);
@@ -58,12 +58,12 @@ function BubbleSortContext(props){
             let id = res.data[i]._id;
             axios.get(`https://learn-algorithms.herokuapp.com/users/${id}`)
               .then(res =>{
-                const newFile = new Blob([res.data.file[0]], {type: "octet-stream"});
+                const newFile = new Blob([res.data.bubbleFile[0]], {type: "octet-stream"});
                 const href = URL.createObjectURL(newFile);
                 const a = Object.assign(document.createElement('a'),{
                   href, 
                   style:"display:none", 
-                  download:`${res.data.file[1]}`,
+                  download:`${res.data.bubbleFile[1]}`,
                 });
                 document.body.appendChild(a);
 

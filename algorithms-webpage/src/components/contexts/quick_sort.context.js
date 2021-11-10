@@ -27,7 +27,7 @@ function QuickSortContext(props){
         for(let i = 0; i < res.data.length; i++){
           if (res.data[i].username == user){
             axios.put(`https://learn-algorithms.herokuapp.com/users/put/${res.data[i]._id}`, {
-              file: paramFile
+              quickFile: paramFile
             })
               .then(res => {
                 console.log(res);
@@ -58,12 +58,12 @@ function QuickSortContext(props){
             let id = res.data[i]._id;
             axios.get(`https://learn-algorithms.herokuapp.com/users/${id}`)
               .then(res =>{
-                const newFile = new Blob([res.data.file[0]], {type: "octet-stream"});
+                const newFile = new Blob([res.data.quickFile[0]], {type: "octet-stream"});
                 const href = URL.createObjectURL(newFile);
                 const a = Object.assign(document.createElement('a'),{
                   href, 
                   style:"display:none", 
-                  download:`${res.data.file[1]}`,
+                  download:`${res.data.quickFile[1]}`,
                 });
                 document.body.appendChild(a);
 
