@@ -6,8 +6,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
 import GoogleLogin from 'react-google-login';
 import axios from 'axios';
+import Routes from './routes.component';
+import App from '../App';
 
-const drawerWidth = 240;
+const drawerWidth = 190;
 
 function ResponsiveDrawer(props) {
     const { children } = props;
@@ -68,99 +70,88 @@ function ResponsiveDrawer(props) {
     }
 
     const drawer = (
-        <div>
-            <Toolbar/>
-            <Divider />
-            <List>
+        <Box sx={{ background: 'transparent' }} >
+            <Toolbar sx={{ height: '8em' }} />
+            <List >
                 <ListItemButton component={Link} selected={selectedIndex === 0}
-                    to="/insertion_sort" style={{ textDecoration: 'none' }}
+                    to="/user/example/insertion_sort" style={{ textDecoration: 'none', color: '#B7F0F9', padding: '1em 0 1em 2.4em' }}
                     onClick={(event) => handleListItemClick(event, 0)}
                 >
-                    <ListItemText primary="Insertion Sort"/>
+                    <Typography variant='subtitle' sx={{
+                        textDecoration: 'none',
+                        color: '#8FB0B5S', 
+                    }} >
+                        INSERTION SORT
+                    </Typography>
+                    {/* <ListItemText primary="Insertion Sort"/> */}
                 </ListItemButton>
 
                 <ListItemButton component={Link} selected={selectedIndex === 1}
-                    to="/merge_sort" style={{ textDecoration: 'none' }}
+                    to="/user/:id/merge_sort" style={{ textDecoration: 'none', color: '#B7F0F9', padding: '1em 0 1em 2.4em' }}
                     onClick={(event) => handleListItemClick(event, 1)}
                 >
-                        <ListItemText primary="Merge Sort"/>
+                        <Typography variant='subtitle' sx={{
+                        textDecoration: 'none',
+                        color: '#8FB0B5S', 
+                    }} >
+                        MERGE SORT
+                    </Typography>
                 </ListItemButton>
 
                 <ListItemButton component={Link} selected={selectedIndex === 2}
-                    to="/bubble_sort" style={{ textDecoration: 'none' }}
+                    to="/user/:id/bubble_sort" style={{ textDecoration: 'none', color: '#B7F0F9', padding: '1em 0 1em 2.4em' }}
                     onClick={(event) => handleListItemClick(event, 2)}
                 >
-                        <ListItemText primary="Bubble Sort"/>
+                        <Typography variant='subtitle' sx={{
+                        textDecoration: 'none',
+                        color: '#8FB0B5S', 
+                    }} >
+                        BUBBLE SORT
+                    </Typography>
                 </ListItemButton>
 
                 <ListItemButton component={Link} selected={selectedIndex === 3}
-                    to="/quick_sort" style={{ textDecoration: 'none' }}
+                    to="/user/:id/quick_sort" style={{ textDecoration: 'none', color: '#B7F0F9', padding: '1em 0 1em 2.4em' }}
                     onClick={(event) => handleListItemClick(event, 3)}
                 >
-                        <ListItemText primary="Quick Sort"/>
+                        <Typography variant='subtitle' sx={{
+                        textDecoration: 'none',
+                        color: '#8FB0B5S', 
+                    }} >
+                        QUICK SORT
+                    </Typography>
                 </ListItemButton>
 
             </List>
-        </div>
+        </Box>
     );
 
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar
-                sx={{
-                width: '100%',
-                position: "fixed",
-                zIndex:  (theme) => theme.zIndex.drawer + 1
-                }}
-            >
-                <Toolbar>
-                   <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'none' } }}
-                    >
-                    <MenuIcon />
-                    </IconButton>
-                    <Button component={Link} color="inherit" onClick={(event) => handleListItemClick(event, -1)}
-                        to="/" style={{ textDecoration: 'none', ml: 0 }}
-                    >
-                        <Typography component="div" variant="h6" noWrap >
-                            Learn Algorithms
-                        </Typography>
-                    </Button>
-                    <Box sx={{flexGrow: 1}} />
-                    <Box id="welcome_box" sx={{flexGrow: 1}}>{welcome_message}</Box>
-                    <Button component={GoogleLogin}
-                    clientId="124192276419-9d96sqr4hfb0tti2rptuchq3qc0bk1jm.apps.googleusercontent.com"
-                    onSuccess={responseGoogle}
-                    onFailure={responseGoogle}
-                    cookiePolicy={'single_host_origin'}
-                    sx={{ alignItems: "flex-end"}}
-                    >
-                        Login
-                    </Button>
-                </Toolbar>
-            </AppBar>
+
 
             <Box
-                component="nav"
-                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+                component="nav" 
+                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 }, background: 'transparent', zIndex: '800' }}
                 aria-label="mailbox folders"
                 >
                 {/* ### The mobile (aka small) version of the drawer ### */}
-                <Drawer
+
+                <Drawer 
+                    hideBackdrop='true'
                     variant="temporary"
                     open={mobileOpen}
                     onClose={handleDrawerToggle}
                     ModalProps={{
                         keepMounted: true, // Better open performance on mobile.
                     }}
+                    BackdropProps={{
+                        background: 'transparent'
+                    }}
                     sx={{
                         display: { xs: 'block', sm: 'none' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, background: 'transparent', boxShadow: 'none'  },
                     }}
                     >
                         {drawer}
@@ -171,7 +162,8 @@ function ResponsiveDrawer(props) {
                     variant="permanent"
                     sx={{
                         display: { xs: 'none', sm: 'block' }, flexShrink: 0,
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, background: 'transparent', boxShadow: 'none' },
+                        
                     }}
                     open
                     >
@@ -180,10 +172,16 @@ function ResponsiveDrawer(props) {
 
             </Box>
 
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                <Toolbar />
+            {/* <Box sx={{ marginTop: '3.2em' }} >
+                <Typography variant='h1' >
+                    Insertion Sort
+                </Typography>
+            </Box> */}
 
-                { children }
+            <Box component="content" sx={{ flexGrow: 1, p: 3 }}>
+                <Toolbar />
+                {children}
+
             </Box>
         </Box>
     );

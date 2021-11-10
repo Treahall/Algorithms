@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://friendly-nobel-219a5e.netlify.app/",
   "dependencies": {
-    "@emotion/react": "^11.4.1",
+    "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.1",
     "@mui/material": "^5.0.0",
@@ -17,6 +17,7 @@
     "fontsource-roboto": "^4.0.0",
     "gh-pages": "^3.2.3",
     "mongoose": "^6.0.7",
+    "netlify-identity-widget": "^1.9.2",
     "nodemon": "^2.0.12",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -31,7 +32,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "svg": "svgr -d src/images/icons src/images/icons/svgs"
   },
   "eslintConfig": {
     "extends": [
@@ -54,5 +56,8 @@
   "main": "index.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@svgr/cli": "^5.5.0"
+  }
 }

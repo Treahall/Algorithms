@@ -6,6 +6,7 @@ import InsertionSortContext from "./contexts/insertion_sort.context"
 import MergeSortContext from "./contexts/merge_sort.context"
 import QuickSortContext from "./contexts/quick_sort.context"
 import BubbleSortContext from "./contexts/bubble_sort.context"
+import Home from '../pages/home.js';
 
 export default class Routes extends Component {
     constructor(props) {
@@ -20,11 +21,10 @@ export default class Routes extends Component {
         return(
             <div>
                 <Switch>
-                <Route path="/insertion_sort" component = {InsertionSortContext} />
+                <Route path="/user/:id/insertion_sort" component = {InsertionSortContext} />
                 <Route path="/merge_sort" component = {MergeSortContext} />
                 <Route path="/quick_sort" component = {QuickSortContext} />
                 <Route path="/bubble_sort" component = {BubbleSortContext} />
-                <Route path="/" exact component = {AlgorithmList} />
                 </Switch>
             </div>
         )

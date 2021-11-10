@@ -3,9 +3,14 @@ import "fontsource-roboto";
 import axios from 'axios';
 import Visualizer from '../visualizer.component'
 import {Button} from '@mui/material';
+import Fab from '@mui/material/Fab';
+import UpIcon from '@mui/icons-material/KeyboardArrowUp';
+import Drawer from '@mui/material/Drawer';
+import { Typography, Box } from '@mui/material';
 
 function InsertionSortContext(props){
   const [data, setData] = useState([]);
+  const [drawerOpen, setDrawerOpen] = useState(false)
 
   useEffect(() => {
     getData();
@@ -77,20 +82,37 @@ function InsertionSortContext(props){
     }
   }
 
+  const AlgorithmInfo = (
+    <Box>
+      <Typography variant='h1' fontSize={50} color='#B7F0F9' marginBottom='.25em' >
+        {data.name}
+      </Typography>
+      <Typography variant='subtitle' fontSize={20} color='#8FB0B5' >
+        {data.description}
+      </Typography>
+      <Typography variant='h2' fontSize={30} paddingTop='.9em' paddingBottom='.9em' color='#A3D2D9'>
+        Algorithm Analysis In Big O Notation
+      </Typography>
+      <Typography variant='h3' fontSize={20} paddingBottom='.25em' color='#8FB0B5' >
+        Best Case: {data.best_case}
+      </Typography>
+
+      <Typography variant='h3' fontSize={20} paddingBottom='.25em' color='#8FB0B5' >
+        Average Case: {data.average_case}
+      </Typography>
+
+      <Typography variant='h3' fontSize={20} paddingBottom='1em' color='#8FB0B5' >
+        Worst Case: {data.worst_case}
+      </Typography>
+    </Box>
+  )
+
   return(
-    <div>
-      <div className = "container">
-        <h3 style={{textAlign: "center"}}> Data Received: </h3>
-        <ul>
-          <li> {data.name} </li>
-          <li> <p> {data.description} </p> </li>
-          <li> {data.best_case} </li>
-          <li> {data.average_case} </li>
-          <li> {data.worst_case} </li>
-         </ul>
-      </div>
+    <Box >
+      {AlgorithmInfo}
+      
       <Visualizer algorithm="insertion-sort" />
-      <div>
+      <Box>
         <h3>Write your own insertion sort implementation below!</h3>
         <input
           type="file"
@@ -108,10 +130,14 @@ function InsertionSortContext(props){
             Download
         </Button>
         <iframe src="https://trinket.io/embed/python/7826b47750?runOption=run" width="100%" height="356" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
-      </div>
-    </div>
+      </Box>
+      <Fab color='primary' aria-label="drawerUp">
+        <UpIcon/>
+      </Fab>
+    </Box>
 
     //TODO: Add bottom drawer with trinket component
+
   );
 }
 
