@@ -13,9 +13,10 @@ import { Box } from '@mui/material';
 
 function App() {
 
+  document.body.style = 'background: #0c1e42'
 
   return (
-    <Box sx={{ backgroundColor: '#0c1e42' }}>
+    <Box>
       <Router>
           <Switch>
             <Route path="/" exact component={ Home } />

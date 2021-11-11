@@ -9,6 +9,10 @@
 
 }
 
+#root {
+  background-color: #0c1e42;
+}
+
 #Nav_menu {
   display: flex;
   flex-direction: row;

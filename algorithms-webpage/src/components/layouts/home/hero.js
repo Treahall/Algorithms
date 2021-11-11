@@ -12,7 +12,7 @@ const openNetlifyModal = () => {
         netlifyIdentity.open()
     } else
     console.log("netlifyIdentity not defined.")
-
+    netlifyIdentity.init()
     
 }
 
