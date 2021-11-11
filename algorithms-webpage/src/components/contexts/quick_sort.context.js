@@ -3,6 +3,9 @@ import "fontsource-roboto";
 import axios from 'axios';
 import Visualizer from '../visualizer.component'
 import {Box, Typography, Button} from '@mui/material';
+import { currentUser } from 'netlify-identity-widget';
+
+const netlifyIdentity = window.netlifyIdentity
 
 function QuickSortContext(props){
   const [data, setData] = useState([]);
@@ -19,13 +22,24 @@ function QuickSortContext(props){
   }
 
   function uploadFile(paramFile){
-    let user = "Collin Winstead"//document.getElementById("welcome_box").innerHTML.slice(9, -1);
-    if (user == "") console.log("ERROR: no user logged in");
+    let user = netlifyIdentity.currentUser();
+    if (user == null) console.log("ERROR: no user logged in");
     else{
+      /*
+      axios.put(`https://learn-algorithms.herokuapp.com/users/put/${user.id}`, {
+        quickFile: paramFile
+      })
+        .then(res => {
+          console.log(res);
+        });
+        */
+      
+      
       axios.get('https://learn-algorithms.herokuapp.com/users')
       .then(res => {
+        //find the user we are looking for
         for(let i = 0; i < res.data.length; i++){
-          if (res.data[i].username == user){
+          if (res.data[i].username == user.user_metadata.full_name){
             axios.put(`https://learn-algorithms.herokuapp.com/users/put/${res.data[i]._id}`, {
               quickFile: paramFile
             })
@@ -33,8 +47,10 @@ function QuickSortContext(props){
                 console.log(res);
               });
           }
+          
         }
       });
+    
     }
   }
 
@@ -48,13 +64,13 @@ function QuickSortContext(props){
   };
 
   function handleFileDownload(){
-    let user = "Collin Winstead" //document.getElementById("welcome_box").innerHTML.slice(9, -1);
-    if (user == "") console.log("ERROR: no user logged in")
+    let user = netlifyIdentity.currentUser();
+    if (user == null) console.log("ERROR: no user logged in")
     else{
       axios.get('https://learn-algorithms.herokuapp.com/users')
       .then(res => {
         for(let i = 0; i < res.data.length; i++){
-          if (res.data[i].username == user){
+          if (res.data[i].username == user.user_metadata.full_name){
             let id = res.data[i]._id;
             axios.get(`https://learn-algorithms.herokuapp.com/users/${id}`)
               .then(res =>{

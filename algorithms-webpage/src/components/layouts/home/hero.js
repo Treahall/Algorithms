@@ -1,18 +1,33 @@
 // Hero for the home layout
 import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
+import { useState } from 'react'
 import HeroImage from '../../../images/hero_image.png'
 import { Link } from 'react-router-dom'
 import netlifyAuth from '../../netlifyAuth'
+import axios from 'axios'
+
+//const [user, setUser] = useState();
 
 const openNetlifyModal = () => {
     const netlifyIdentity = window.netlifyIdentity
     console.log(netlifyIdentity.currentUser())
+    //setUser(netlifyIdentity.currentUser())
     if(netlifyIdentity){
         netlifyIdentity.open()
+        //add user to db if they do not exist already
+        netlifyIdentity.on('login', user => {
+            axios.post("https://learn-algorithms.herokuapp.com/users/add", {
+                username: user.user_metadata.full_name,
+                email: user.email
+            })
+            .then(res =>{console.log(res)})
+            .catch(err =>{console.log(err.response.data)});
+        })
     } else
     console.log("netlifyIdentity not defined.")
 }
+
 
 export default function Hero() {
 
