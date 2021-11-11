@@ -19,7 +19,7 @@ function QuickSortContext(props){
   }
 
   function uploadFile(paramFile){
-    let user = document.getElementById("welcome_box").innerHTML.slice(9, -1);
+    let user = "Collin Winstead"//document.getElementById("welcome_box").innerHTML.slice(9, -1);
     if (user == "") console.log("ERROR: no user logged in");
     else{
       axios.get('https://learn-algorithms.herokuapp.com/users')
@@ -48,7 +48,7 @@ function QuickSortContext(props){
   };
 
   function handleFileDownload(){
-    let user = document.getElementById("welcome_box").innerHTML.slice(9, -1);
+    let user = "Collin Winstead" //document.getElementById("welcome_box").innerHTML.slice(9, -1);
     if (user == "") console.log("ERROR: no user logged in")
     else{
       axios.get('https://learn-algorithms.herokuapp.com/users')
