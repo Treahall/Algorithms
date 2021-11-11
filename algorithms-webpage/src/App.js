@@ -25,9 +25,10 @@ function initNetlifyIdentity() {
 
 function App() {
   document.body.style = 'background: #0c1e42'
-  
+
   initNetlifyIdentity()
   const netlifyIdentity = window.netlifyIdentity
+  netlifyIdentity.on('init', user => console.log('init', user))
   netlifyIdentity.init()
 
   return (

@@ -87,7 +87,6 @@ const Visualizer = props => {
         let aBars = document.getElementsByClassName('array-bar')
         let tArray = animation.tempArray
 
-        console.log(stateBars.run)
         if(stateBars.run && tAnimations.length > 0){
             let animation = tAnimations.pop()
             setTimeout(() => {
