@@ -12,6 +12,8 @@ import Contact from './pages/contact';
 import { Box } from '@mui/material';
 
 function App() {
+
+
   return (
     <Box sx={{ backgroundColor: '#0c1e42' }}>
       <Router>

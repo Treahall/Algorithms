@@ -242,7 +242,7 @@ const Visualizer = props => {
     // *** DOM ELEMENTS TO RETURN *** //
     // ****************************** //
     return (
-        <div>
+        <div >
             <hr/>
             {/* Bar Visualization is generated here using styling. */}
             {/* container for the bars. */}
