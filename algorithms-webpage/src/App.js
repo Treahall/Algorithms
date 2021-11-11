@@ -11,9 +11,24 @@ import LoggedIn from './pages/loggedIn';
 import Contact from './pages/contact';
 import { Box } from '@mui/material';
 
-function App() {
+// Imports netlify identity into our script into HTML.
+// Must be called from React life-cyle function, some form
+// of 'did mount/ on mount' functionality.
+function initNetlifyIdentity() {
+  console.log("initNetlifyIdentity called.")
+  const script = document.createElement("script")
+  script.src = "https://identity.netlify.com/v1/netlify-identity-widget.js"
+  script.async = true
 
+  document.body.appendChild(script)
+}
+
+function App() {
   document.body.style = 'background: #0c1e42'
+  
+  initNetlifyIdentity()
+  const netlifyIdentity = window.netlifyIdentity
+  netlifyIdentity.init()
 
   return (
     <Box>
