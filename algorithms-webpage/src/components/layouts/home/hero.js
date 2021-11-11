@@ -7,7 +7,7 @@ import netlifyAuth from '../../netlifyAuth'
 
 const openNetlifyModal = () => {
     const netlifyIdentity = window.netlifyIdentity
-
+    console.log(netlifyIdentity.currentUser())
     if(netlifyIdentity){
         netlifyIdentity.open()
     } else
@@ -39,7 +39,7 @@ export default function Hero() {
                 <Typography variant='h2' fontSize={60} color='#8FB0B5' maxWidth='20em' letterSpacing='.05em' >
                 Visual demonstrations of algorithms that help you understand them and implement your own.
                 </Typography>
-                <Button id='login-btn' onClick={openNetlifyModal} sx={{ 
+                <Button component={Link} to='/user/:id' id='login-btn' onClick={openNetlifyModal} sx={{ 
                     backgroundColor: '#ffb092',
                     marginTop: '2em',
                     color: '#0C1D40',
@@ -48,7 +48,7 @@ export default function Hero() {
                         color: '#ffb092'
                     } }} >
 
-                    <Typography variant='h3' component={Link} to='/user/:id' fontSize={40} sx={{
+                    <Typography variant='h3' fontSize={40} sx={{
                         textDecoration: 'none',
                         color: '#0C1E42',
                         "&:visited": {

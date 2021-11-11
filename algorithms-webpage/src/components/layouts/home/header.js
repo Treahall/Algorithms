@@ -20,7 +20,7 @@ export default function Header() {
         }}>
             <Toolbar>
 
-                <Box component={Link} to='/' id='logo' className='logo' sx={{
+                <Box component={Link} to='/user/:id' id='logo' className='logo' sx={{
                     display: 'inline-block'
                 }}>
                     <Logo/>
