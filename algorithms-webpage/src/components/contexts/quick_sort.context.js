@@ -26,21 +26,23 @@ function QuickSortContext(props) {
       });
   }
 
-  //Uploads a chosen file to the database under quickFile
-  function uploadFile(paramFile) {
-    let user = netlifyIdentity.currentUser();
-    if (user == null) console.log("ERROR: no user logged in");
-    else {
-      axios
-        .put(`https://learn-algorithms.herokuapp.com/users/put/${user.id}`, {
-          quickFile: paramFile,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err.response.data);
-        });
+  function uploadFile(paramFile){
+    let user = "Collin Winstead"//document.getElementById("welcome_box").innerHTML.slice(9, -1);
+    if (user == "") console.log("ERROR: no user logged in");
+    else{
+      axios.get('https://learn-algorithms.herokuapp.com/users')
+      .then(res => {
+        for(let i = 0; i < res.data.length; i++){
+          if (res.data[i].username == user){
+            axios.put(`https://learn-algorithms.herokuapp.com/users/put/${res.data[i]._id}`, {
+              quickFile: paramFile
+            })
+              .then(res => {
+                console.log(res);
+              });
+          }
+        }
+      });
     }
   }
 
@@ -54,31 +56,30 @@ function QuickSortContext(props) {
     fileReader.readAsText(e.target.files[0]);
   };
 
-  //gets the user's file from the database if it exists
-  function handleFileDownload() {
-    let user = netlifyIdentity.currentUser();
-    if (user == null) console.log("ERROR: no user logged in");
-    else {
-      axios
-        .get(`https://learn-algorithms.herokuapp.com/users/${user.id}`)
-        .then((res) => {
-          if (res.data.quickFile[0] == "") {
-            console.log("ERROR: no file found");
-          } else {
-            const newFile = new Blob([res.data.quickFile[0]], {
-              type: "octet-stream",
-            });
-            const href = URL.createObjectURL(newFile);
-            const a = Object.assign(document.createElement("a"), {
-              href,
-              style: "display:none",
-              download: `${res.data.quickFile[1]}`,
-            });
-            //creates an invisible link for the download
-            document.body.appendChild(a);
-            a.click(); //click the link
-            URL.revokeObjectURL(href);
-            a.remove(); //remove the link
+  function handleFileDownload(){
+    let user = "Collin Winstead" //document.getElementById("welcome_box").innerHTML.slice(9, -1);
+    if (user == "") console.log("ERROR: no user logged in")
+    else{
+      axios.get('https://learn-algorithms.herokuapp.com/users')
+      .then(res => {
+        for(let i = 0; i < res.data.length; i++){
+          if (res.data[i].username == user){
+            let id = res.data[i]._id;
+            axios.get(`https://learn-algorithms.herokuapp.com/users/${id}`)
+              .then(res =>{
+                const newFile = new Blob([res.data.quickFile[0]], {type: "octet-stream"});
+                const href = URL.createObjectURL(newFile);
+                const a = Object.assign(document.createElement('a'),{
+                  href,
+                  style:"display:none",
+                  download:`${res.data.quickFile[1]}`,
+                });
+                document.body.appendChild(a);
+
+                a.click();
+                URL.revokeObjectURL(href);
+                a.remove();
+              });
           }
         });
     }
