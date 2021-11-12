@@ -31,7 +31,7 @@ const Visualizer = props => {
     // barsReducer for the data of the bars.
     const [stateBars, dispatchBars] = useReducer(barsReducer, { barsArray: [], animations: [], run: false })
     // stateReducer for the state data.
-    const [state, dispatchState] = useReducer(stateReducer, { barWidth: 0, maxBars: 0, dimensions: {width: 0, height: 0},
+    const [state, dispatchState] = useReducer(stateReducer, { maxBars: 0, dimensions: {width: 0, height: 0},
         sliderI: 0, numBars: 0})
     // states used for animation updates
     const [animation, setAnimation] = useState({tempArray: [], currentCompare: [], tempAnimations: []})
@@ -43,26 +43,25 @@ const Visualizer = props => {
     // *********************** //
     
     // Handle BEFORE MOUNT effects, useRef for dimensions and calculating maxbars.
-    useLayoutEffect( () => {
-        //`${((state.maxBars*4)-(state.numBars*2))/state.numBars}px`
+    useLayoutEffect(() => {
         function handleResize() {
             if(ref.current){
                 dispatchState({ type: ACTIONS.SET_MAX_BARS, payload: { width: ref.current.offsetWidth }})
-                dispatchState({ type: ACTIONS.SET_NUMBARS, payload: { num: Math.floor(ref.current.offsetWidth/8) } })
+                dispatchState({ type: ACTIONS.SET_DIMENSIONS, payload: { width: ref.current.offsetWidth,
+                    height: ref.current.offsetHeight} })
             }
         }
         handleResize()
+        dispatchState({ type: ACTIONS.SET_NUMBARS, payload: { num: Math.floor(ref.current.offsetWidth/8) } })
         dispatchState({ type: ACTIONS.SET_SLIDERI, payload: { num: Math.floor(ref.current.offsetWidth/8) } })
         window.addEventListener('resize', handleResize)
         return () => {
             window.removeEventListener('resize', handleResize)
         };
     }, [])
-    
+
     useEffect(() => {
         
-        dispatchState({ type: ACTIONS.SET_DIMENSIONS, payload: { barwidth: `${((state.maxBars*4)-(state.numBars*2))/state.numBars}px`, 
-            width: ref.current.offsetWidth, height: ref.current.offsetHeight} })
         return () => {
         }
     }, [])
@@ -195,7 +194,7 @@ const Visualizer = props => {
 
             case ACTIONS.SET_DIMENSIONS:
                 return {...state, dimensions: {width: action.payload.width,
-                     height: action.payload.height, barWidth: action.payload.barWidth}}
+                     height: action.payload.height}}
 
             case ACTIONS.SET_SLIDERI:
                 return {...state, sliderI: action.payload.num}
@@ -268,7 +267,7 @@ const Visualizer = props => {
                             display: 'inline-block',
                             backgroundColor: '#b7f0f9',
                             minWidth: '2px',
-                            width: state.barWidth,
+                            width: `${((state.maxBars*4)-(state.numBars*2))/state.numBars}px`,
                             margin: '0 1px',
                             height: `${state.dimensions.height*(value/max)}px`}}
                         >
