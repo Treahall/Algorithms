@@ -27,18 +27,25 @@ function MergeSortContext(props){
   }
 
   //Uploads a chosen file to the database under mergeFile
-  function uploadFile(paramFile){
+  function uploadFile(paramFile) {
     let user = netlifyIdentity.currentUser();
     if (user == null) console.log("ERROR: no user logged in");
-    else{
-      axios.put(`https://learn-algorithms.herokuapp.com/users/put/${user.id}`, {
-        mergeFile: paramFile
-      })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err.response.data);
+    else {
+      axios.get("https://learn-algorithms.herokuapp.com/users").then((res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          if (res.data[i].username == user.user_metadata.full_name) {
+            axios
+              .put(
+                `https://learn-algorithms.herokuapp.com/users/put/${res.data[i]._id}`,
+                {
+                  mergeFile: paramFile,
+                }
+              )
+              .then((res) => {
+                console.log(res);
+              });
+          }
+        }
       });
     }
   }
@@ -54,30 +61,39 @@ function MergeSortContext(props){
   };
 
   //gets the user's file from the database if it exists
-  function handleFileDownload(){
+  function handleFileDownload() {
     let user = netlifyIdentity.currentUser();
-    if (user == null) console.log("ERROR: no user logged in")
-    else{
-      axios.get(`https://learn-algorithms.herokuapp.com/users/${user.id}`)
-        .then(res =>{
-          if (res.data.mergeFile[0] == ""){
-            console.log("ERROR: no file found");
-          }
-          else{
-            const newFile = new Blob([res.data.mergeFile[0]], {type: "octet-stream"});
-            const href = URL.createObjectURL(newFile);
-            const a = Object.assign(document.createElement('a'),{
-            href, 
-            style:"display:none", 
-            download:`${res.data.mergeFile[1]}`,
-            });
-            document.body.appendChild(a);
+    if (user == null) console.log("ERROR: no user logged in");
+    else {
+      axios.get("https://learn-algorithms.herokuapp.com/users").then((res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          if (res.data[i].username == user.user_metadata.full_name) {
+            let id = res.data[i]._id;
+            axios
+              .get(`https://learn-algorithms.herokuapp.com/users/${id}`)
+              .then((res) => {
+                if (res.data.mergeFile[0] == "")
+                  console.log("ERROR: no file found");
+                else {
+                  const newFile = new Blob([res.data.mergeFile[0]], {
+                    type: "octet-stream",
+                  });
+                  const href = URL.createObjectURL(newFile);
+                  const a = Object.assign(document.createElement("a"), {
+                    href,
+                    style: "display:none",
+                    download: `${res.data.mergeFile[1]}`,
+                  });
+                  document.body.appendChild(a);
 
-            a.click();
-            URL.revokeObjectURL(href);
-            a.remove();
+                  a.click();
+                  URL.revokeObjectURL(href);
+                  a.remove();
+                }
+              });
           }
-        });
+        }
+      });
     }
   }
 

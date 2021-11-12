@@ -15,9 +15,10 @@ function BubbleSortContext(props) {
   });
 
   //gets algorithm data
-  function getData(){
-    axios.get('https://learn-algorithms.herokuapp.com/algorithms')
-      .then(res => {
+  function getData() {
+    axios
+      .get("https://learn-algorithms.herokuapp.com/algorithms")
+      .then((res) => {
         setData(res.data[3]);
       })
       .catch((err) => {
@@ -25,21 +26,27 @@ function BubbleSortContext(props) {
       });
   }
 
-  //Uploads a chosen file to the database under insertionFile
+  ///Uploads a chosen file to the database under mergeFile
   function uploadFile(paramFile) {
     let user = netlifyIdentity.currentUser();
     if (user == null) console.log("ERROR: no user logged in");
     else {
-      axios
-        .put(`https://learn-algorithms.herokuapp.com/users/put/${user.id}`, {
-          bubbleFile: paramFile,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err.response.data);
-        });
+      axios.get("https://learn-algorithms.herokuapp.com/users").then((res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          if (res.data[i].username == user.user_metadata.full_name) {
+            axios
+              .put(
+                `https://learn-algorithms.herokuapp.com/users/put/${res.data[i]._id}`,
+                {
+                  bubbleFile: paramFile,
+                }
+              )
+              .then((res) => {
+                console.log(res);
+              });
+          }
+        }
+      });
     }
   }
 
@@ -58,28 +65,35 @@ function BubbleSortContext(props) {
     let user = netlifyIdentity.currentUser();
     if (user == null) console.log("ERROR: no user logged in");
     else {
-      axios
-        .get(`https://learn-algorithms.herokuapp.com/users/${user.id}`)
-        .then((res) => {
-          if (res.data.bubbleFile[0] == "") {
-            console.log("ERROR: no file found");
-          } else {
-            const newFile = new Blob([res.data.bubbleFile[0]], {
-              type: "octet-stream",
-            });
-            const href = URL.createObjectURL(newFile);
-            const a = Object.assign(document.createElement("a"), {
-              href,
-              style: "display:none",
-              download: `${res.data.bubbleFile[1]}`,
-            });
-            //creates an invisible link for the download
-            document.body.appendChild(a);
-            a.click(); //click the link
-            URL.revokeObjectURL(href);
-            a.remove(); //remove the link
+      axios.get("https://learn-algorithms.herokuapp.com/users").then((res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          if (res.data[i].username == user.user_metadata.full_name) {
+            let id = res.data[i]._id;
+            axios
+              .get(`https://learn-algorithms.herokuapp.com/users/${id}`)
+              .then((res) => {
+                if (res.data.bubbleFile[0] == "")
+                  console.log("ERROR: no file found");
+                else {
+                  const newFile = new Blob([res.data.bubbleFile[0]], {
+                    type: "octet-stream",
+                  });
+                  const href = URL.createObjectURL(newFile);
+                  const a = Object.assign(document.createElement("a"), {
+                    href,
+                    style: "display:none",
+                    download: `${res.data.bubbleFile[1]}`,
+                  });
+                  document.body.appendChild(a);
+
+                  a.click();
+                  URL.revokeObjectURL(href);
+                  a.remove();
+                }
+              });
           }
-        });
+        }
+      });
     }
   }
 
