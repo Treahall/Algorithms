@@ -18,7 +18,7 @@ function QuickSortContext(props){
   function getData(){
     axios.get('https://learn-algorithms.herokuapp.com/algorithms')
       .then(res => {
-        setData(res.data[0]);
+        setData(res.data[2]);
       })
       .catch(err =>{
         console.log(err.response.data);
