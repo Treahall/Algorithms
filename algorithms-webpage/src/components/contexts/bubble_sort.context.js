@@ -15,10 +15,9 @@ function BubbleSortContext(props) {
   });
 
   //gets algorithm data
-  function getData() {
-    axios
-      .get("https://learn-algorithms.herokuapp.com/algorithms")
-      .then((res) => {
+  function getData(){
+    axios.get('https://learn-algorithms.herokuapp.com/algorithms')
+      .then(res => {
         setData(res.data[3]);
       })
       .catch((err) => {
