@@ -2,12 +2,14 @@ const router = require('express').Router();
 let Algorithm = require('../models/algorithm.model');
 
 router.route('/').get((req, res) => {
+    //gets all algorithms in the db
     Algorithm.find()
         .then(algorithms => res.json(algorithms))
         .catch(err => res.status(400).json('ERROR: ' + err));
 });
 
 router.route('/add').post((req, res) => {
+    //adds a new algorithm to the db
     const name = req.body.name;
     const description = req.body.description;
     const best_case = req.body.best_case;

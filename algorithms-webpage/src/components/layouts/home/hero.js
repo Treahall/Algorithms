@@ -7,12 +7,9 @@ import { Link } from 'react-router-dom'
 import netlifyAuth from '../../netlifyAuth'
 import axios from 'axios'
 
-//const [user, setUser] = useState();
-
 const openNetlifyModal = () => {
     const netlifyIdentity = window.netlifyIdentity
     console.log(netlifyIdentity.currentUser())
-    //setUser(netlifyIdentity.currentUser())
     if(netlifyIdentity){
         netlifyIdentity.open()
         //add user to db if they do not exist already
