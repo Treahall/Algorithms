@@ -20,7 +20,7 @@ export default function Header() {
         }}>
             <Toolbar>
 
-                <Box component={Link} to='/user/:id' id='logo' className='logo' sx={{
+                <Box component={Link} to='/' id='logo' className='logo' sx={{
                     display: 'inline-block'
                 }}>
                     <Logo/>
@@ -30,13 +30,13 @@ export default function Header() {
                 <Box >
                     <Typography variant='subtitle' component={Link} to='/contact' sx={{
                         textDecoration: 'none',
-                        color: '#8FB0B5S', 
+                        color: '#8FB0B5', 
+                        "&:visited": {
+                            color: '#8FB0B5'
+                        },
                         "&:hover": {
                             color: '#8FB0B5'
                         },
-                        "&:visited": {
-                            color: '#8FB0B5'
-                        }
                     }} >
                         CONTACT US
                     </Typography>

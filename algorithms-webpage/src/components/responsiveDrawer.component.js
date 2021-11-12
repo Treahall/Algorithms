@@ -74,7 +74,7 @@ function ResponsiveDrawer(props) {
             <Toolbar sx={{ height: '8em' }} />
             <List >
                 <ListItemButton component={Link} selected={selectedIndex === 0}
-                    to="/user/example/insertion_sort" style={{ textDecoration: 'none', color: '#B7F0F9', padding: '1em 0 1em 2.4em' }}
+                    to="/logged-in/insertion_sort" style={{ textDecoration: 'none', color: '#B7F0F9', padding: '1em 0 1em 2.4em' }}
                     onClick={(event) => handleListItemClick(event, 0)}
                 >
                     <Typography variant='subtitle' sx={{
@@ -87,7 +87,7 @@ function ResponsiveDrawer(props) {
                 </ListItemButton>
 
                 <ListItemButton component={Link} selected={selectedIndex === 1}
-                    to="/user/:id/merge_sort" style={{ textDecoration: 'none', color: '#B7F0F9', padding: '1em 0 1em 2.4em' }}
+                    to="/logged-in/merge_sort" style={{ textDecoration: 'none', color: '#B7F0F9', padding: '1em 0 1em 2.4em' }}
                     onClick={(event) => handleListItemClick(event, 1)}
                 >
                         <Typography variant='subtitle' sx={{
@@ -99,7 +99,7 @@ function ResponsiveDrawer(props) {
                 </ListItemButton>
 
                 <ListItemButton component={Link} selected={selectedIndex === 2}
-                    to="/user/:id/bubble_sort" style={{ textDecoration: 'none', color: '#B7F0F9', padding: '1em 0 1em 2.4em' }}
+                    to="/logged-in/bubble_sort" style={{ textDecoration: 'none', color: '#B7F0F9', padding: '1em 0 1em 2.4em' }}
                     onClick={(event) => handleListItemClick(event, 2)}
                 >
                         <Typography variant='subtitle' sx={{
@@ -111,7 +111,7 @@ function ResponsiveDrawer(props) {
                 </ListItemButton>
 
                 <ListItemButton component={Link} selected={selectedIndex === 3}
-                    to="/user/:id/quick_sort" style={{ textDecoration: 'none', color: '#B7F0F9', padding: '1em 0 1em 2.4em' }}
+                    to="/logged-in/quick_sort" style={{ textDecoration: 'none', color: '#B7F0F9', padding: '1em 0 1em 2.4em' }}
                     onClick={(event) => handleListItemClick(event, 3)}
                 >
                         <Typography variant='subtitle' sx={{
@@ -121,7 +121,6 @@ function ResponsiveDrawer(props) {
                         QUICK SORT
                     </Typography>
                 </ListItemButton>
-
             </List>
         </Box>
     );

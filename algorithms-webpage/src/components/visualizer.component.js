@@ -31,7 +31,7 @@ const Visualizer = props => {
     // barsReducer for the data of the bars.
     const [stateBars, dispatchBars] = useReducer(barsReducer, { barsArray: [], animations: [], run: false })
     // stateReducer for the state data.
-    const [state, dispatchState] = useReducer(stateReducer, { maxBars: 0, dimensions: {width: 0, height: 0},
+    const [state, dispatchState] = useReducer(stateReducer, { barWidth: 0, maxBars: 0, dimensions: {width: 0, height: 0},
         sliderI: 0, numBars: 0})
     // states used for animation updates
     const [animation, setAnimation] = useState({tempArray: [], currentCompare: [], tempAnimations: []})
@@ -43,21 +43,28 @@ const Visualizer = props => {
     // *********************** //
     
     // Handle BEFORE MOUNT effects, useRef for dimensions and calculating maxbars.
-    useLayoutEffect(() => {
+    useLayoutEffect( () => {
+        //`${((state.maxBars*4)-(state.numBars*2))/state.numBars}px`
         function handleResize() {
             if(ref.current){
                 dispatchState({ type: ACTIONS.SET_MAX_BARS, payload: { width: ref.current.offsetWidth }})
-                dispatchState({ type: ACTIONS.SET_DIMENSIONS, payload: { width: ref.current.offsetWidth,
-                    height: ref.current.offsetHeight} })
+                dispatchState({ type: ACTIONS.SET_NUMBARS, payload: { num: Math.floor(ref.current.offsetWidth/8) } })
             }
         }
         handleResize()
-        dispatchState({ type: ACTIONS.SET_NUMBARS, payload: { num: Math.floor(ref.current.offsetWidth/8) } })
         dispatchState({ type: ACTIONS.SET_SLIDERI, payload: { num: Math.floor(ref.current.offsetWidth/8) } })
         window.addEventListener('resize', handleResize)
         return () => {
             window.removeEventListener('resize', handleResize)
         };
+    }, [])
+    
+    useEffect(() => {
+        
+        dispatchState({ type: ACTIONS.SET_DIMENSIONS, payload: { barwidth: `${((state.maxBars*4)-(state.numBars*2))/state.numBars}px`, 
+            width: ref.current.offsetWidth, height: ref.current.offsetHeight} })
+        return () => {
+        }
     }, [])
 
     // Side effects of numBars: get new bars of size numBars.
@@ -66,6 +73,8 @@ const Visualizer = props => {
         dispatchBars({ type: ACTIONS.GET_NEW_BARS, payload: { num: state.numBars} })
     }, [state.numBars])
 
+    // When run is changed to true, gets the animations and sets them.
+    // This triggers the useEffect that runs the animations.
     useEffect(() => {
         if(stateBars.run){
             let tArray = stateBars.barsArray.slice()
@@ -81,6 +90,7 @@ const Visualizer = props => {
         }
     }, [stateBars.run])
 
+    // This one handles the animation running.
     useEffect(() => {
         let tAnimations = animation.tempAnimations
         let cCompare = animation.currentCompare
@@ -94,11 +104,11 @@ const Visualizer = props => {
                     case "compare":
                         if(cCompare){
                             cCompare.forEach(index => {
-                                aBars[index].style.backgroundColor = 'turquoise'
+                                aBars[index].style.backgroundColor = '#b7f0f9'
                             })
                         }
                         animation[0].forEach(index => {
-                            aBars[index].style.backgroundColor = 'red'
+                            aBars[index].style.backgroundColor = '#ffb092'
                         })
                         cCompare = animation[0]
                         break
@@ -128,7 +138,7 @@ const Visualizer = props => {
         else{
             setTimeout(() => {
                 cCompare.forEach(index => {
-                    aBars[index].style.backgroundColor = 'turquoise'
+                    aBars[index].style.backgroundColor = '#b7f0f9'
                 })
                 dispatchBars({ type: ACTIONS.RUN_FALSE })
             }, delay)
@@ -185,7 +195,7 @@ const Visualizer = props => {
 
             case ACTIONS.SET_DIMENSIONS:
                 return {...state, dimensions: {width: action.payload.width,
-                     height: action.payload.height}}
+                     height: action.payload.height, barWidth: action.payload.barWidth}}
 
             case ACTIONS.SET_SLIDERI:
                 return {...state, sliderI: action.payload.num}
@@ -242,7 +252,7 @@ const Visualizer = props => {
     // ****************************** //
     return (
         <div >
-            <hr/>
+            <hr color='#7d5748' />
             {/* Bar Visualization is generated here using styling. */}
             {/* container for the bars. */}
             <Box ref={ref}
@@ -256,9 +266,9 @@ const Visualizer = props => {
                     <Box className='array-bar' key={idx}
                         sx={{ 
                             display: 'inline-block',
-                            backgroundColor: 'turquoise',
+                            backgroundColor: '#b7f0f9',
                             minWidth: '2px',
-                            width: `${((state.maxBars*4)-(state.numBars*2))/state.numBars}px`,
+                            width: state.barWidth,
                             margin: '0 1px',
                             height: `${state.dimensions.height*(value/max)}px`}}
                         >
@@ -272,7 +282,7 @@ const Visualizer = props => {
                     {/* Button to run the algorithm. */}
                     <Button 
                         onClick={handleRunAlgorithmClick} 
-                        sx={{m: '0px', size: {xs: 'small'}}}
+                        sx={{m: '0px', size: {xs: 'small'}, color: '#b7f0f9'}}
                         >
                         Run Algorithm
                     </Button>
@@ -280,7 +290,7 @@ const Visualizer = props => {
                     {/* Button to generate new barsArray. */}
                     <Button 
                         onClick={handleGenerateNewDataClick}
-                        sx={{ size: {xs: 'small'}}} 
+                        sx={{ size: {xs: 'small', color: '#b7f0f9'}}} 
                         >
                         Generate New Data
                     </Button>
@@ -289,7 +299,7 @@ const Visualizer = props => {
                     <Box sx={{flexGrow: 1}} />
 
                     {/* Slider to change the size of the barsArray. */}
-                    <FormLabel sx={{ m: '0px 10px 0px 15px' }}> Change Array Size: </FormLabel>
+                    <FormLabel sx={{ m: '0px 10px 0px 15px', color:'#8FB0B5' }}> Change Array Size: </FormLabel>
                     <Slider 
                         onChange={(e) => dispatchState({ type: ACTIONS.SET_SLIDERI, payload: {num: e.target.value} })} // Update sliderI.
                         onChangeCommitted={() => dispatchState({ type: ACTIONS.SET_NUMBARS, payload: {num: state.sliderI} })} // Update numBars
@@ -297,40 +307,25 @@ const Visualizer = props => {
                         max={state.maxBars}
                         step={1}
                         size='small' 
-                        sx={{ width: 100 }}  
+                        sx={{ width: 100, color: '#b7f0f9' }}  
                         value={state.sliderI}
                         valueLabelDisplay="auto"
                         > </Slider>
 
                     {/* Slider to change the speed of the algorithm. */}
-                    <FormLabel sx={{ m: '0px 10px 0px 15px' }}> Change Delay: </FormLabel>
+                    <FormLabel sx={{ m: '0px 10px 0px 15px', color: '#8FB0B5' }}> Change Delay: </FormLabel>
                     <Slider 
                         onChange={(e) => setDelay(e.target.value)} 
                         min={1}
                         max={100}
                         size='small' 
-                        sx={{width: 100}}
+                        sx={{width: 100, color: '#b7f0f9'}}
                         value={delay}
                         valueLabelDisplay="auto"
                         > </Slider> 
                     </Toolbar>
             </Box>
-            <hr/>
-
-            {/* debug data. */}
-            {/* <Box>
-                <ul>
-                    <li>
-                        - MaxBars = {state.maxBars}
-                    </li>
-                    <li>
-                        - Width = {state.dimensions.width}
-                    </li>
-                    <li>
-                        - numBars = {state.numBars}
-                    </li>
-                </ul>
-            </Box> */}
+            <hr color='#7d5748'/>
         </div>
     )
 

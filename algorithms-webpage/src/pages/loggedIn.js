@@ -12,7 +12,7 @@ export default function LoggedIn() {
     return (
         <Layout>
             <ResponsiveDrawer>
-                <QuickSortContext/>
+                <Routes/>
             </ResponsiveDrawer>
         </Layout>
     )

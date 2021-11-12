@@ -37,7 +37,7 @@ function App() {
           <Switch>
             <Route path="/" exact component={ Home } />
             <Route path="/contact" exact component={ Contact }/>
-            <Route path="/user/:id" component={ LoggedIn }/>
+            <Route path="/logged-in/" component={ LoggedIn }/>
           </Switch>
       </Router>
     </Box>

@@ -1,9 +1,8 @@
 // Hero for the home layout
 import { Box, Button, Typography } from '@mui/material'
-import React from 'react'
+import React, { useLayoutEffect, useEffect, useState } from 'react'
 import HeroImage from '../../../images/hero_image.png'
-import { Link } from 'react-router-dom'
-import netlifyAuth from '../../netlifyAuth'
+import { Link, useHistory } from 'react-router-dom'
 
 const openNetlifyModal = () => {
     const netlifyIdentity = window.netlifyIdentity
@@ -14,7 +13,83 @@ const openNetlifyModal = () => {
     console.log("netlifyIdentity not defined.")
 }
 
+
 export default function Hero() {
+    const history = useHistory()
+    const [user, setUser] = useState(window.netlifyIdentity.currentUser())
+    
+    window.netlifyIdentity.on('login', () => {
+        setUser(window.netlifyIdentity.currentUser())
+        history.push('/logged-in/insertion_sort')
+    })
+
+    window.netlifyIdentity.on('logout', () => {
+        setUser(window.netlifyIdentity.currentUser())
+        window.location.reload(true)
+    })
+
+    useEffect(() => {
+        return () => {
+            window.netlifyIdentity.off('logout')
+        }
+    }, [])
+
+    const loginBtn = (
+        <Button component={Link} to='/' id='login-btn' onClick={openNetlifyModal} sx={{ 
+            backgroundColor: '#ffb092',
+            marginTop: '2em',
+            color: '#0C1D40',
+            "&:hover": {
+                backgroundColor: '#0C1D40',
+                color: '#ffb092'
+            } }} >
+    
+            <Typography variant='h3' fontSize={40} sx={{
+                textDecoration: 'none',
+                color: '#0C1E42',
+                "&:visited": {
+                    color: '#0C1E42'
+                },
+                "&:hover": {
+                    color: '#ffb092'
+                },
+            }}  >
+                LOGIN TO LEARN
+            </Typography>
+        </Button>
+    )
+
+    const backToAlgorithmsBtn = (
+        <Button component={Link} to='/logged-in/insertion_sort' id='back-to-algoritms-btn' sx={{ 
+            backgroundColor: '#ffb092',
+            marginTop: '2em',
+            color: '#0C1D40',
+            "&:hover": {
+                backgroundColor: '#0C1D40',
+                color: '#ffb092'
+            } }} >
+    
+            <Typography variant='h3' fontSize={40} sx={{
+                textDecoration: 'none',
+                color: '#0C1E42',
+                "&:visited": {
+                    color: '#0C1E42'
+                },
+                "&:hover": {
+                    color: '#ffb092'
+                },
+            }}  >
+                BACK TO ALGORITHMS
+            </Typography>
+        </Button>
+    )
+    
+    
+    useEffect(() => {
+        return () => {
+        };
+
+    }, [])
 
     return (
         <Box sx={{
@@ -39,28 +114,7 @@ export default function Hero() {
                 <Typography variant='h2' fontSize={60} color='#8FB0B5' maxWidth='20em' letterSpacing='.05em' >
                 Visual demonstrations of algorithms that help you understand them and implement your own.
                 </Typography>
-                <Button component={Link} to='/user/:id' id='login-btn' onClick={openNetlifyModal} sx={{ 
-                    backgroundColor: '#ffb092',
-                    marginTop: '2em',
-                    color: '#0C1D40',
-                    "&:hover": {
-                        backgroundColor: '#0C1D40',
-                        color: '#ffb092'
-                    } }} >
-
-                    <Typography variant='h3' fontSize={40} sx={{
-                        textDecoration: 'none',
-                        color: '#0C1E42',
-                        "&:visited": {
-                            color: '#0C1E42'
-                        },
-                        "&:hover": {
-                            color: '#ffb092'
-                        },
-                    }}  >
-                        LOGIN WITH GOOGLE
-                    </Typography>
-                </Button>
+                {!!user ? backToAlgorithmsBtn : loginBtn}
             </Box>
 
         </Box>

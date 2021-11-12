@@ -108,7 +108,9 @@ function QuickSortContext(props){
 
       <Visualizer algorithm="quick-sort"/>
       <div>
-        <h3>Write your own quick sort implementation below!</h3>
+        <Typography variant='h2' fontSize={30} color='#B7F0F9'>
+          Practice your own quick sort implementation below
+        </Typography>
         <input
           type="file"
           accept=".py"
@@ -117,14 +119,14 @@ function QuickSortContext(props){
           onChange={onChange}
         />
         <label htmlFor="upload-button">
-          <Button sx={{m: '0px', size: {xs: 'small'}}} component="span">
+          <Button sx={{m: '0px', size: {xs: 'small'}, color: '#8FB0B5'}} component="span">
             Upload
           </Button>
         </label>
-        <Button onClick={handleFileDownload} sx={{m: '0px', size: {xs: 'small'}}}>
+        <Button onClick={handleFileDownload} sx={{m: '0px', size: {xs: 'small'}, color: '#8FB0B5'}}>
             Download
         </Button>
-        <iframe src="https://trinket.io/embed/python/f91fbc98bb?runOption=run" width="100%" height="356" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+        <iframe src="https://trinket.io/embed/python/f91fbc98bb?runOption=run" width="100%" height="500" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
       </div>
     </Box>
 

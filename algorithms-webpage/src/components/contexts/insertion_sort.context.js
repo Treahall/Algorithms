@@ -113,7 +113,9 @@ function InsertionSortContext(props){
       
       <Visualizer algorithm="insertion-sort" />
       <Box>
-        <h3>Write your own insertion sort implementation below!</h3>
+      <Typography variant='h2' fontSize={30} color='#B7F0F9'>
+          Practice your own insertion sort implementation below
+        </Typography>
         <input
           type="file"
           accept=".py"
@@ -129,15 +131,9 @@ function InsertionSortContext(props){
         <Button onClick={handleFileDownload} sx={{m: '0px', size: {xs: 'small'}}}>
             Download
         </Button>
-        <iframe src="https://trinket.io/embed/python/7826b47750?runOption=run" width="100%" height="356" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+        <iframe src="https://trinket.io/embed/python/7826b47750?runOption=run" width="100%" height="500" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
       </Box>
-      <Fab color='primary' aria-label="drawerUp">
-        <UpIcon/>
-      </Fab>
     </Box>
-
-    //TODO: Add bottom drawer with trinket component
-
   );
 }
 

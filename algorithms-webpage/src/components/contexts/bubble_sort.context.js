@@ -108,7 +108,9 @@ function BubbleSortContext(props){
 
       <Visualizer algorithm="bubble-sort" />
       <div>
-        <h3>Write your own bubble sort implementation below!</h3>
+      <Typography variant='h2' fontSize={30} color='#B7F0F9'>
+          Practice your own bubble sort implementation below
+        </Typography>
         <input
           type="file"
           accept=".py"
@@ -124,7 +126,7 @@ function BubbleSortContext(props){
         <Button onClick={handleFileDownload} sx={{m: '0px', size: {xs: 'small'}}}>
             Download
         </Button>
-        <iframe src="https://trinket.io/embed/python/cdf146c96f?runOption=run" width="100%" height="356" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+        <iframe src="https://trinket.io/embed/python/cdf146c96f?runOption=run" width="100%" height="500" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
       </div>
     </Box>
 

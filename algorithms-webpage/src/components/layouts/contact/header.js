@@ -37,7 +37,7 @@ export default function Header() {
                             color: '#8FB0B5'
                         }
                     }} >
-                        HOME
+                        BACK
                     </Typography>
                 </Box>
 

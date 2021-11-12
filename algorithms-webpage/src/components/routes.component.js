@@ -21,10 +21,10 @@ export default class Routes extends Component {
         return(
             <div>
                 <Switch>
-                <Route path="/user/:id/insertion_sort" component = {InsertionSortContext} />
-                <Route path="/merge_sort" component = {MergeSortContext} />
-                <Route path="/quick_sort" component = {QuickSortContext} />
-                <Route path="/bubble_sort" component = {BubbleSortContext} />
+                <Route path="/logged-in/insertion_sort" component = {InsertionSortContext} />
+                <Route path="/logged-in/merge_sort" component = {MergeSortContext} />
+                <Route path="/logged-in/quick_sort" component = {QuickSortContext} />
+                <Route path="/logged-in/bubble_sort" component = {BubbleSortContext} />
                 </Switch>
             </div>
         )
