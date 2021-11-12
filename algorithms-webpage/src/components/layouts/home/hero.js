@@ -7,7 +7,6 @@ import axios from 'axios'
 
 const openNetlifyModal = () => {
     const netlifyIdentity = window.netlifyIdentity
-    console.log(netlifyIdentity.currentUser())
     if(netlifyIdentity){
         netlifyIdentity.open()
         //add user to db if they do not exist already
@@ -18,6 +17,7 @@ const openNetlifyModal = () => {
             })
             .then(res =>{console.log(res)})
             .catch(err =>{console.log(err.response.data)});
+            netlifyIdentity.close()
         })
     } else
     console.log("netlifyIdentity not defined.")
