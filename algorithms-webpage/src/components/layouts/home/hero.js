@@ -3,10 +3,6 @@ import { Box, Button, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import HeroImage from '../../../images/hero_image.png'
 import { Link, useHistory } from 'react-router-dom'
-import React from 'react'
-import { useState } from 'react'
-import HeroImage from '../../../images/hero_image.png'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 const openNetlifyModal = () => {

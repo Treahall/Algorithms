@@ -19,14 +19,12 @@ export default class Routes extends Component {
 
     render() {
         return(
-            <div>
-                <Switch>
-                <Route path="/logged-in/insertion_sort" component = {InsertionSortContext} />
-                <Route path="/logged-in/merge_sort" component = {MergeSortContext} />
-                <Route path="/logged-in/quick_sort" component = {QuickSortContext} />
-                <Route path="/logged-in/bubble_sort" component = {BubbleSortContext} />
-                </Switch>
-            </div>
+            <Switch>
+            <Route path="/logged-in/insertion_sort" component = {InsertionSortContext} />
+            <Route path="/logged-in/merge_sort" component = {MergeSortContext} />
+            <Route path="/logged-in/quick_sort" component = {QuickSortContext} />
+            <Route path="/logged-in/bubble_sort" component = {BubbleSortContext} />
+            </Switch>
         )
     }
 }

@@ -46,24 +46,18 @@ const Visualizer = props => {
     useLayoutEffect(() => {
         function handleResize() {
             if(ref.current){
-                dispatchState({ type: ACTIONS.SET_MAX_BARS, payload: { width: ref.current.offsetWidth }})
-                dispatchState({ type: ACTIONS.SET_DIMENSIONS, payload: { width: ref.current.offsetWidth,
+                dispatchState({ type: ACTIONS.SET_MAX_BARS, payload: { width: window.innerWidth - 270 }})
+                dispatchState({ type: ACTIONS.SET_DIMENSIONS, payload: { width: window.innerWidth - 270,
                     height: ref.current.offsetHeight} })
             }
         }
         handleResize()
-        dispatchState({ type: ACTIONS.SET_NUMBARS, payload: { num: Math.floor(ref.current.offsetWidth/8) } })
-        dispatchState({ type: ACTIONS.SET_SLIDERI, payload: { num: Math.floor(ref.current.offsetWidth/8) } })
+        dispatchState({ type: ACTIONS.SET_NUMBARS, payload: { num: 50 } })
+        dispatchState({ type: ACTIONS.SET_SLIDERI, payload: { num: 50 } })
         window.addEventListener('resize', handleResize)
         return () => {
             window.removeEventListener('resize', handleResize)
         };
-    }, [])
-
-    useEffect(() => {
-        
-        return () => {
-        }
     }, [])
 
     // Side effects of numBars: get new bars of size numBars.
@@ -273,6 +267,7 @@ const Visualizer = props => {
                         >
                     </Box>
                 ))}
+                {console.log('The width is', state.dimensions.width)}
             </Box>
 
             {/* Inputs to change the properties of the visualization. */}
@@ -325,8 +320,10 @@ const Visualizer = props => {
                     </Toolbar>
             </Box>
             <hr color='#7d5748'/>
+
         </div>
     )
+
 
 }
 
